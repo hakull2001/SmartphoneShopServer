@@ -1,2 +1,4 @@
-package com.smartphoneshop.entity;public class User {
+package com.smartphoneshop.entity;
+
+public class User {
 }
