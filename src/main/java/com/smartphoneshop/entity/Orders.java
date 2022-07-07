@@ -1,4 +1,4 @@
 package com.smartphoneshop.entity;
 
-public class User {
+public class Orders {
 }

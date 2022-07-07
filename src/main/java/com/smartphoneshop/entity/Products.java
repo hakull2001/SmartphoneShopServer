@@ -1,4 +1,4 @@
 package com.smartphoneshop.entity;
 
-public class Phone {
+public class Products {
 }
