@@ -8,18 +8,21 @@ import java.io.Serializable;
 import java.util.List;
 
 @Data
-public class Cart implements Serializable {
+@Table(name = "categories",catalog = "smartPhoneShop")
+public class Category implements Serializable {
     @Column(name = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private short id;
 
-    @OneToOne
-    @JoinColumn(name = "userId",nullable = false)
-    private short userId;
+    @Column(name = "`name`",length = 255,nullable = false)
+    private String name;
 
-    @OneToMany(mappedBy = "cart")
+    @Column(name = "`status`",columnDefinition = "1")
+    private short status;
+
+    @OneToMany(mappedBy = "cateId")
     @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-    private List<CartItem> cartItemList;
+    private List<Product> products;
 
 }
