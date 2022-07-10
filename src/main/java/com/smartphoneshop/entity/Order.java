@@ -1,29 +1,32 @@
 package com.smartphoneshop.entity;
 
+import com.smartphoneshop.entity.Enum.EStatus;
 import lombok.Data;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 @Data
 @Entity
-@Table(name = "categories")
-public class Category implements Serializable {
+@Table(name = "orders")
+public class Order implements Serializable {
     @Column(name = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private short id;
 
-    @Column(name = "`name`",length = 255,nullable = false)
-    private String name;
+    @OneToOne
+    @JoinColumn(name = "user_Id",nullable = false)
+    private User user;
 
-    @Column(name = "`status`",columnDefinition = "1")
-    private short status;
-
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "product")
     @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-    private List<Product> products;
+    private List<OrderItem> orderItems;
+
+
 
 }
