@@ -10,7 +10,8 @@ import java.util.List;
 
 
 @Data
-@Table(name = "users",catalog = "smartPhoneShop")
+@Entity
+@Table(name = "`users`")
 public class User implements Serializable {
     @Column(name = "id")
     @Id
@@ -23,7 +24,7 @@ public class User implements Serializable {
     @Column(name = "email",length = 255,nullable = false, unique = true)
     private String email;
 
-    @Column(name = "fullName",length = 255,nullable = false)
+    @Column(name = "fullname",length = 255,nullable = false)
     private  String fullName;
 
     @Column(name = "`password`",length = 255,nullable = false)
@@ -39,26 +40,26 @@ public class User implements Serializable {
     @Enumerated(EnumType.STRING)
     private ERole role;
 
-    @Column(name = "isConfirmed",columnDefinition = "0")
-    private short isConfirmed;
+    @Column(name = "`status`")
+    private short status;
 
-    @Column(name = "avatarUrl",length = 500)
-    private String avatarUrl;
+    @Column(name = "avatar",nullable = false,length = 500)
+    private String avatar;
 
-    @OneToMany(mappedBy = "author")
-    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-    private List<Product> products;
-
-    @OneToOne(mappedBy = "userId")
-    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-    private Cart cart;
-
-    @OneToOne(mappedBy = "userId")
-    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-    private  Order  order;
-
-    @OneToOne(mappedBy = "userId")
-    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-    private ProductRate productRate;
+//    @OneToMany(mappedBy = "author")
+//    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+//    private List<Product> products;
+//
+//    @OneToOne(mappedBy = "user")
+//    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+//    private Cart cart;
+//
+//    @OneToOne(mappedBy = "user")
+//    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+//    private  Order  order;
+//
+//    @OneToOne(mappedBy = "user")
+//    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+//    private ProductRates productRate;
 
 }

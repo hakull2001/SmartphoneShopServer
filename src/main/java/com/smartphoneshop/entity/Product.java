@@ -10,6 +10,8 @@ import java.util.Date;
 import java.util.List;
 
 @Data
+@Entity
+@Table(name = "products")
 public class Product implements Serializable {
     @Column(name = "id")
     @Id
@@ -22,24 +24,24 @@ public class Product implements Serializable {
     @Column(name = "`descriptions`",length = 1000,nullable = false)
     private String descriptions;
 
-    @Column(name = "originalPrice",nullable = false)
+    @Column(name = "original_Price",nullable = false)
     private int originalPrice;
 
-    @Column(name = "promotionPrice",nullable = false)
+    @Column(name = "promotion_Price",nullable = false)
     private int promotionPrice;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author",nullable = false)
-    private short author;
+    private User author;
 
-    @Column(name = "`createdDate`")
+    @Column(name = "`created_Date`")
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     private Date createdDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cateId",nullable = false)
-    private short cateId;
+    @JoinColumn(name = "cate_Id",nullable = false)
+    private Category category;
 
     @Column(name = "amount",nullable = false)
     private short amount;
@@ -47,19 +49,19 @@ public class Product implements Serializable {
     @Column(name = "`status`",columnDefinition = "1")
     private short status;
 
-    @OneToMany(mappedBy = "productId",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "product",fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     private List<ProductImage> productImages;
 
-    @OneToOne(mappedBy = "productId",fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "product",fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-    private ProductRate productRate;
+    private ProductRates productRate;
 
-    @OneToMany(mappedBy = "productId",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "product",fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     private List<CartItem> cartItemList;
 
-    @OneToMany(mappedBy = "productId",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "product",fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     private List<OrderItem> orderItems;
 

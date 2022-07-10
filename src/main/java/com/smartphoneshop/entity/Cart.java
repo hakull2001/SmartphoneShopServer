@@ -8,6 +8,8 @@ import java.io.Serializable;
 import java.util.List;
 
 @Data
+@Entity
+@Table(name = "cart")
 public class Cart implements Serializable {
     @Column(name = "id")
     @Id
@@ -15,11 +17,12 @@ public class Cart implements Serializable {
     private short id;
 
     @OneToOne
-    @JoinColumn(name = "userId",nullable = false)
-    private short userId;
+    @JoinColumn(name = "user_Id",nullable = false)
+    private User user;
 
-    @OneToMany(mappedBy = "cart")
+    @OneToMany(mappedBy = "cart",fetch = FetchType.LAZY)
     @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     private List<CartItem> cartItemList;
+
 
 }

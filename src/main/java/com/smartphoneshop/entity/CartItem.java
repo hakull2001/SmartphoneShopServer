@@ -1,13 +1,14 @@
 package com.smartphoneshop.entity;
 
-import com.smartphoneshop.entity.Key.CartItemKey;
+import com.smartphoneshop.entity.Keys.CartItemKey;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Data
-
+@Entity
+@Table(name = "cartItems")
 public class CartItem implements Serializable {
     @EmbeddedId
     CartItemKey id;
@@ -16,11 +17,13 @@ public class CartItem implements Serializable {
     private Integer amount;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cartId")
+    @MapsId("cartId")
+    @JoinColumn(name = "cart_Id")
     private Cart cart;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "productId")
+    @MapsId("productId")
+    @JoinColumn(name = "product_Id")
     private Product product;
 
 }

@@ -8,7 +8,8 @@ import java.io.Serializable;
 import java.util.List;
 
 @Data
-@Table(name = "categories",catalog = "smartPhoneShop")
+@Entity
+@Table(name = "categories")
 public class Category implements Serializable {
     @Column(name = "id")
     @Id
@@ -21,7 +22,7 @@ public class Category implements Serializable {
     @Column(name = "`status`",columnDefinition = "1")
     private short status;
 
-    @OneToMany(mappedBy = "cateId")
+    @OneToMany(mappedBy = "category")
     @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     private List<Product> products;
 

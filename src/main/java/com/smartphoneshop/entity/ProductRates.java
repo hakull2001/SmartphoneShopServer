@@ -8,19 +8,21 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Data
-public class ProductRate  implements Serializable {
+@Entity
+@Table(name = "`PRODUCT_RATES`" )
+public class ProductRates implements Serializable {
     @Column(name = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private short id;
 
     @OneToOne
-    @JoinColumn(name = "userId",nullable = false)
-    private short userId;
+    @JoinColumn(name = "user_Id",nullable = false)
+    private User user;
 
     @OneToOne
-    @JoinColumn(name = "productId",nullable = false)
-    private short productId;
+    @JoinColumn(name = "product_Id",nullable = false)
+    private Product product;
 
     @Column(name = "`value`",nullable = false)
     private short value;
@@ -28,12 +30,12 @@ public class ProductRate  implements Serializable {
     @Column(name = "`comment`",length = 1000, nullable = false)
     private String comment;
 
-    @Column(name = "createdAt")
+    @Column(name = "created_At")
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     private Date createdAt;
 
-    @Column(name = "updateAt")
+    @Column(name = "update_At")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateAt;
 

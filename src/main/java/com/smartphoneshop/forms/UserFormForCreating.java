@@ -1,4 +1,4 @@
-package com.smartphoneshop.form;
+package com.smartphoneshop.forms;
 
 public class UserFormForCreating {
 }
