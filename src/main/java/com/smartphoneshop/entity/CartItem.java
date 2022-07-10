@@ -1,6 +1,8 @@
 package com.smartphoneshop.entity;
 
-import com.smartphoneshop.entity.Keys.CartItemKey;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -10,20 +12,22 @@ import java.io.Serializable;
 @Entity
 @Table(name = "cartItems")
 public class CartItem implements Serializable {
-    @EmbeddedId
-    CartItemKey id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     @Column(name = "amount",nullable = false)
     private Integer amount;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("cartId")
+    @ManyToOne
     @JoinColumn(name = "cart_Id")
+    @JsonIgnore
     private Cart cart;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("productId")
+    @ManyToOne
     @JoinColumn(name = "product_Id")
+    @JsonManagedReference
     private Product product;
 
 }

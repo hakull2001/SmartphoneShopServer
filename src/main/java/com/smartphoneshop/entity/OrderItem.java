@@ -1,7 +1,6 @@
 package com.smartphoneshop.entity;
 
 import com.smartphoneshop.entity.Enum.EStatus;
-import com.smartphoneshop.entity.Keys.OrderItemKey;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -12,8 +11,11 @@ import java.util.Date;
 @Entity
 @Table(name = "orderItems")
 public class OrderItem {
-    @EmbeddedId
-    OrderItemKey id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
 
     @Column(name = "created_Date")
     @Temporal(TemporalType.TIMESTAMP)
@@ -28,13 +30,11 @@ public class OrderItem {
     @Enumerated(EnumType.STRING)
     private EStatus status;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("orderId")
-    @JoinColumn(name = "order_Id")
-    private Order order;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("productId")
-    @JoinColumn(name = "product_Id")
-    private Product product;
+//    @ManyToOne
+//    @JoinColumn(name = "order_Id")
+//    private Order order;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "product_Id")
+//    private Product product;
 }

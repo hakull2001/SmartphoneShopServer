@@ -1,5 +1,7 @@
 package com.smartphoneshop.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -24,8 +26,9 @@ public class ProductImage implements Serializable {
     @CreationTimestamp //Deafault now
     private Date createdAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "product_Id",nullable = false)
+    @JsonIgnore
     private Product product;
 
 }

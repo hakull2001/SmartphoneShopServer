@@ -1,5 +1,8 @@
 package com.smartphoneshop.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CreationTimestamp;
@@ -30,17 +33,14 @@ public class Product implements Serializable {
     @Column(name = "promotion_Price",nullable = false)
     private int promotionPrice;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "author",nullable = false)
-    private User author;
-
     @Column(name = "`created_Date`")
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     private Date createdDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "cate_Id",nullable = false)
+    @JsonIgnore
     private Category category;
 
     @Column(name = "amount",nullable = false)
@@ -49,21 +49,20 @@ public class Product implements Serializable {
     @Column(name = "`status`",columnDefinition = "1")
     private short status;
 
-    @OneToMany(mappedBy = "product",fetch = FetchType.LAZY)
-    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-    private List<ProductImage> productImages;
+//    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
+//    private List<ProductImage> productImages;
 
-    @OneToOne(mappedBy = "product",fetch = FetchType.LAZY)
-    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-    private ProductRates productRate;
+//    @OneToMany(mappedBy = "product")
+//    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+//    private List<ProductRate> productRate;
 
-    @OneToMany(mappedBy = "product",fetch = FetchType.LAZY)
-    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+    @OneToMany(mappedBy = "product",fetch = FetchType.EAGER)
+    @JsonBackReference
     private List<CartItem> cartItemList;
 
-    @OneToMany(mappedBy = "product",fetch = FetchType.LAZY)
-    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-    private List<OrderItem> orderItems;
+//    @OneToMany(mappedBy = "product",fetch = FetchType.LAZY)
+//    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+//    private List<OrderItem> orderItems;
 
 
 }

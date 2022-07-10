@@ -23,9 +23,9 @@ public class Order implements Serializable {
     @JoinColumn(name = "user_Id",nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "product")
-    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-    private List<OrderItem> orderItems;
+//    @OneToMany(mappedBy = "product")
+//    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+//    private List<OrderItem> orderItems;
 
 
 

@@ -1,5 +1,6 @@
 package com.smartphoneshop.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.annotations.Cascade;
 
@@ -22,8 +23,7 @@ public class Category implements Serializable {
     @Column(name = "`status`",columnDefinition = "1")
     private short status;
 
-    @OneToMany(mappedBy = "category")
-    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
     private List<Product> products;
 
 }

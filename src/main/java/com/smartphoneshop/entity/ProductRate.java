@@ -10,19 +10,19 @@ import java.util.Date;
 @Data
 @Entity
 @Table(name = "`PRODUCT_RATES`" )
-public class ProductRates implements Serializable {
+public class ProductRate implements Serializable {
     @Column(name = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private short id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "user_Id",nullable = false)
     private User user;
 
-    @OneToOne
-    @JoinColumn(name = "product_Id",nullable = false)
-    private Product product;
+//    @ManyToOne
+//    @JoinColumn(name = "product_Id")
+//    private Product product;
 
     @Column(name = "`value`",nullable = false)
     private short value;
