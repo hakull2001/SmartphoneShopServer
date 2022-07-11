@@ -2,6 +2,8 @@ package com.smartphoneshop.entity;
 
 import com.smartphoneshop.entity.Enum.EStatus;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -12,6 +14,7 @@ import java.util.List;
 
 @Data
 @Entity
+@NoArgsConstructor
 @Table(name = "orders")
 public class Order implements Serializable {
     @Column(name = "id")
@@ -26,7 +29,5 @@ public class Order implements Serializable {
     @OneToMany(mappedBy = "product")
     @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     private List<OrderItem> orderItems;
-
-
 
 }

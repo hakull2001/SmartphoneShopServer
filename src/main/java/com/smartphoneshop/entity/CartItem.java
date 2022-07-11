@@ -1,28 +1,32 @@
 package com.smartphoneshop.entity;
 
-import com.smartphoneshop.entity.Keys.CartItemKey;
+
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Data
+@NoArgsConstructor
 @Entity
 @Table(name = "cartItems")
 public class CartItem implements Serializable {
-    @EmbeddedId
-    CartItemKey id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Integer id;
 
     @Column(name = "amount",nullable = false)
     private Integer amount;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("cartId")
+    @ManyToOne
     @JoinColumn(name = "cart_Id")
     private Cart cart;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("productId")
+    @ManyToOne
     @JoinColumn(name = "product_Id")
     private Product product;
 

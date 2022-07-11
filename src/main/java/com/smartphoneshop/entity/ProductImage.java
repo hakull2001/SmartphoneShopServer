@@ -1,6 +1,8 @@
 package com.smartphoneshop.entity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -8,6 +10,7 @@ import java.io.Serializable;
 import java.util.Date;
 @Data
 @Entity
+@NoArgsConstructor
 @Table(name = "ProductImages")
 public class ProductImage implements Serializable {
 
@@ -24,7 +27,7 @@ public class ProductImage implements Serializable {
     @CreationTimestamp //Deafault now
     private Date createdAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "product_Id",nullable = false)
     private Product product;
 
