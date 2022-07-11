@@ -24,7 +24,7 @@ public class ProductImage implements Serializable {
     @CreationTimestamp //Deafault now
     private Date createdAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "product_Id",nullable = false)
     private Product product;
 

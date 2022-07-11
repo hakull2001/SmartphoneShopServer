@@ -16,7 +16,7 @@ public class ProductRates implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private short id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "user_Id",nullable = false)
     private User user;
 

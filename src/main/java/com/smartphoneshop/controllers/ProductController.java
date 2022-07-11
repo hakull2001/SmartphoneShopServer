@@ -1,6 +1,6 @@
 package com.smartphoneshop.controllers;
 
-import com.smartphoneshop.services.IUserService;
+import com.smartphoneshop.services.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,18 +9,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("api/v1/users")
+@RequestMapping("api/v1/products")
 @CrossOrigin("*")
-public class UserController {
+public class ProductController {
     @Autowired
-    private IUserService iUserService;
+    private IProductService iProductService;
 
     @GetMapping
-    public ResponseEntity<?> getAllUser(){
-        return new ResponseEntity<>(iUserService.getListUsers(), HttpStatus.OK);
+    public ResponseEntity<?> getAllProduct(){
+        return new ResponseEntity<>(iProductService.getListProducts(), HttpStatus.OK);
     }
 
 }

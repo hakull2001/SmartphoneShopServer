@@ -46,9 +46,7 @@ public class User implements Serializable {
     @Column(name = "avatar",nullable = false,length = 500)
     private String avatar;
 
-//    @OneToMany(mappedBy = "author")
-//    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-//    private List<Product> products;
+
 //
 //    @OneToOne(mappedBy = "user")
 //    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
@@ -58,8 +56,8 @@ public class User implements Serializable {
 //    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
 //    private  Order  order;
 //
-//    @OneToOne(mappedBy = "user")
-//    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-//    private ProductRates productRate;
+    @OneToMany(mappedBy = "user")
+    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+    private List<ProductRates> productRate;
 
 }

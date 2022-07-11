@@ -49,21 +49,21 @@ public class Product implements Serializable {
     @Column(name = "`status`",columnDefinition = "1")
     private short status;
 
-    @OneToMany(mappedBy = "product",fetch = FetchType.LAZY)
-    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-    private List<ProductImage> productImages;
-
-    @OneToOne(mappedBy = "product",fetch = FetchType.LAZY)
-    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-    private ProductRates productRate;
-
-    @OneToMany(mappedBy = "product",fetch = FetchType.LAZY)
-    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-    private List<CartItem> cartItemList;
-
-    @OneToMany(mappedBy = "product",fetch = FetchType.LAZY)
-    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-    private List<OrderItem> orderItems;
+//    @OneToMany(mappedBy = "product",fetch = FetchType.LAZY)
+//    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+//    private List<ProductImage> productImages;
+//
+//    @OneToOne(mappedBy = "product",fetch = FetchType.LAZY)
+//    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+//    private ProductRates productRate;
+//
+//    @OneToMany(mappedBy = "product",fetch = FetchType.LAZY)
+//    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+//    private List<CartItem> cartItemList;
+//
+//    @OneToMany(mappedBy = "product",fetch = FetchType.LAZY)
+//    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+//    private List<OrderItem> orderItems;
 
 
 }
