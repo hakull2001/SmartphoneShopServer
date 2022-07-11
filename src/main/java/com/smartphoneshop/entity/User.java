@@ -1,7 +1,8 @@
 package com.smartphoneshop.entity;
 
-import com.smartphoneshop.entity.Enum.ERole;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @Data
 @Entity
+@NoArgsConstructor
 @Table(name = "`users`")
 public class User implements Serializable {
     @Column(name = "id")
@@ -28,7 +30,7 @@ public class User implements Serializable {
     private  String fullName;
 
     @Column(name = "`password`",length = 255,nullable = false)
-    private String passWord;
+    private String password;
 
     @Column(name = "phone",length = 15,nullable = false, unique = true)
     private String phoneNumber;
@@ -36,9 +38,8 @@ public class User implements Serializable {
     @Column(name = "address",length = 500,nullable = false)
     private String address;
 
-    @Column(name = "`role`",columnDefinition = "Client")
-    @Enumerated(EnumType.STRING)
-    private ERole role;
+    @Column(name = "`role`")
+    private String role;
 
     @Column(name = "`status`")
     private short status;
@@ -60,4 +61,22 @@ public class User implements Serializable {
     @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     private List<ProductRates> productRate;
 
+    @OneToOne(mappedBy = "user")
+    @JsonIgnore
+    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+    private Cart cart;
+
+    @OneToOne(mappedBy = "user")
+    @JsonIgnore
+    private  Order  order;
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+    private List<ProductRates> productRatesList;
+
+//    @PrePersist
+//    public void PrePersist(){
+//        this.password = new BCryptPasswordEncoder().encode(this.password);
+//    }
 }
