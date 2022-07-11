@@ -1,5 +1,6 @@
 package com.smartphoneshop.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -38,15 +39,16 @@ public class Product implements Serializable {
     @CreationTimestamp
     private Date createdDate;
 
-    @ManyToOne
-    @JoinColumn(name = "cate_Id",nullable = false)
-    private Category category;
-
     @Column(name = "amount",nullable = false)
     private short amount;
 
     @Column(name = "`status`",columnDefinition = "1")
     private short status;
+
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "cate_Id",nullable = false)
+    private Category category;
 
     @OneToMany(mappedBy = "product")
     @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
@@ -57,10 +59,12 @@ public class Product implements Serializable {
     private List<ProductRates> productRatesList;
 
     @OneToMany(mappedBy = "product")
+    @JsonIgnore
     @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     private List<CartItem> cartItemList;
 
     @OneToMany(mappedBy = "product")
+    @JsonIgnore
     @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     private List<OrderItem> orderItems;
 

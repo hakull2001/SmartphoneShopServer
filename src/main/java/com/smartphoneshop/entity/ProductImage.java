@@ -1,5 +1,6 @@
 package com.smartphoneshop.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ public class ProductImage implements Serializable {
     private Date createdAt;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "product_Id",nullable = false)
     private Product product;
 
