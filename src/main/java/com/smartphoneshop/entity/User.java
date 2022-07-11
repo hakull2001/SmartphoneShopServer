@@ -1,7 +1,10 @@
 package com.smartphoneshop.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.smartphoneshop.entity.Enum.ERole;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
@@ -11,6 +14,7 @@ import java.util.List;
 
 @Data
 @Entity
+@NoArgsConstructor
 @Table(name = "`users`")
 public class User implements Serializable {
     @Column(name = "id")
@@ -46,20 +50,20 @@ public class User implements Serializable {
     @Column(name = "avatar",nullable = false,length = 500)
     private String avatar;
 
-//    @OneToMany(mappedBy = "author")
-//    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-//    private List<Product> products;
-//
-//    @OneToOne(mappedBy = "user")
-//    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-//    private Cart cart;
-//
-//    @OneToOne(mappedBy = "user")
-//    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-//    private  Order  order;
-//
-//    @OneToOne(mappedBy = "user")
-//    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-//    private ProductRates productRate;
+
+    @OneToOne(mappedBy = "user")
+    @JsonIgnore
+    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+    private Cart cart;
+
+    @OneToOne(mappedBy = "user")
+    @JsonIgnore
+    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+    private  Order  order;
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+    private List<ProductRates> productRatesList;
 
 }
