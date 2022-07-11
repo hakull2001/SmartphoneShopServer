@@ -19,7 +19,7 @@ public class Product implements Serializable {
     @Column(name = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private short id;
+    private Integer id;
 
     @Column(name = "`title`",length = 255,nullable = false)
     private String title;
@@ -49,20 +49,20 @@ public class Product implements Serializable {
     @Column(name = "`status`",columnDefinition = "1")
     private short status;
 
-//    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
-//    private List<ProductImage> productImages;
+    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
+    @JsonManagedReference
+    private List<ProductImage> productImages;
 
-//    @OneToMany(mappedBy = "product")
-//    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-//    private List<ProductRate> productRate;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<ProductRate> productRate;
 
-    @OneToMany(mappedBy = "product",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "product")
     @JsonBackReference
     private List<CartItem> cartItemList;
 
-//    @OneToMany(mappedBy = "product",fetch = FetchType.LAZY)
-//    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-//    private List<OrderItem> orderItems;
+    @OneToMany(mappedBy = "product")
+    @JsonBackReference
+    private List<OrderItem> orderItems;
 
 
 }

@@ -1,5 +1,6 @@
 package com.smartphoneshop.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
@@ -28,7 +29,7 @@ public class ProductImage implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "product_Id",nullable = false)
-    @JsonIgnore
+    @JsonBackReference
     private Product product;
 
 }

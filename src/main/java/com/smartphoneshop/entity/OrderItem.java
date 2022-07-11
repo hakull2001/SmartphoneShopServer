@@ -1,5 +1,7 @@
 package com.smartphoneshop.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.smartphoneshop.entity.Enum.EStatus;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -30,11 +32,13 @@ public class OrderItem {
     @Enumerated(EnumType.STRING)
     private EStatus status;
 
-//    @ManyToOne
-//    @JoinColumn(name = "order_Id")
-//    private Order order;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "product_Id")
-//    private Product product;
+    @ManyToOne
+    @JoinColumn(name = "order_Id")
+    @JsonIgnore
+    private Order order;
+
+    @ManyToOne
+    @JoinColumn(name = "product_Id")
+    @JsonManagedReference
+    private Product product;
 }

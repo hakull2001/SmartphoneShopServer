@@ -1,5 +1,7 @@
 package com.smartphoneshop.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -20,9 +22,10 @@ public class ProductRate implements Serializable {
     @JoinColumn(name = "user_Id",nullable = false)
     private User user;
 
-//    @ManyToOne
-//    @JoinColumn(name = "product_Id")
-//    private Product product;
+    @ManyToOne
+    @JoinColumn(name = "product_Id")
+    @JsonIgnore
+    private Product product;
 
     @Column(name = "`value`",nullable = false)
     private short value;

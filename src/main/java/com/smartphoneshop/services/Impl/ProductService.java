@@ -1,20 +1,44 @@
 package com.smartphoneshop.services.Impl;
 
+import com.smartphoneshop.base.BasePagination;
+import com.smartphoneshop.dto.pagination.PaginateDTO;
 import com.smartphoneshop.entity.Product;
 import com.smartphoneshop.repositories.IProductRepository;
 import com.smartphoneshop.services.IProductService;
+import com.smartphoneshop.specifications.GenericSpecification;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class ProductService implements IProductService {
+@Component
+public class ProductService extends BasePagination<Product, IProductRepository> implements IProductService {
     @Autowired
     private IProductRepository productRepository;
+
+    @Autowired
+    private ModelMapper modelMapper;
+
+    @Autowired
+    public ProductService(IProductRepository iProductRepository){
+        super(iProductRepository);
+    }
 
     @Override
     public List<Product> getAllProducts() {
         return productRepository.findAll();
+    }
+
+    @Override
+    public PaginateDTO<Product> getList(Integer page, Integer perPage, GenericSpecification<Product> specification) {
+        return this.paginate(page, perPage, specification);
+    }
+
+    @Override
+    public Product getProductById(Integer id) {
+        return productRepository.findById(id).orElse(null);
     }
 }
