@@ -33,4 +33,7 @@ public class ProductImage implements Serializable {
     @JoinColumn(name = "product_Id",nullable = false)
     private Product product;
 
+    public ProductImage(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 }

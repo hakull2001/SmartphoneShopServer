@@ -20,7 +20,7 @@ public class Product implements Serializable {
     @Column(name = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private short id;
+    private Integer id;
 
     @Column(name = "`title`",length = 255,nullable = false)
     private String title;
@@ -42,8 +42,16 @@ public class Product implements Serializable {
     @Column(name = "amount",nullable = false)
     private short amount;
 
-    @Column(name = "`status`",columnDefinition = "1")
-    private short status;
+    @Column(name = "`status`")
+    private short status = 1;
+
+    public Product(String title, String descriptions, int originalPrice, int promotionPrice, short amount) {
+        this.title = title;
+        this.descriptions = descriptions;
+        this.originalPrice = originalPrice;
+        this.promotionPrice = promotionPrice;
+        this.amount = amount;
+    }
 
     @ManyToOne
     @JsonIgnore
