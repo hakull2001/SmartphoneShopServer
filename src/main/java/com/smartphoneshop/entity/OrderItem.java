@@ -29,10 +29,6 @@ public class OrderItem {
     @Column(name = "received_Date",columnDefinition = "null")
     @Temporal(TemporalType.DATE)
     private Date receivedDate;
-//
-//    @Column(name = "`status`",columnDefinition = "Processing")
-//    @Enumerated(EnumType.STRING)
-//    private EStatus status;
 
     @ManyToOne
     @JsonIgnore

@@ -1,9 +1,7 @@
 package com.smartphoneshop.entity;
 
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -13,6 +11,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "cartItems")
 public class CartItem implements Serializable {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +24,7 @@ public class CartItem implements Serializable {
     @ManyToOne
     @JoinColumn(name = "cart_Id")
     private Cart cart;
+
 
     @ManyToOne
     @JoinColumn(name = "product_Id")

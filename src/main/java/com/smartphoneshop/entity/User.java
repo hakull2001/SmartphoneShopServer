@@ -47,6 +47,20 @@ public class User implements Serializable {
     @Column(name = "avatar",nullable = false,length = 500)
     private String avatar;
 
+
+//
+//    @OneToOne(mappedBy = "user")
+//    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+//    private Cart cart;
+//
+//    @OneToOne(mappedBy = "user")
+//    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+//    private  Order  order;
+//
+    @OneToMany(mappedBy = "user")
+    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+    private List<ProductRates> productRate;
+
     @OneToOne(mappedBy = "user")
     @JsonIgnore
     @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
@@ -54,13 +68,13 @@ public class User implements Serializable {
 
     @OneToOne(mappedBy = "user")
     @JsonIgnore
-    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     private  Order  order;
 
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     private List<ProductRates> productRatesList;
+
 //    @PrePersist
 //    public void PrePersist(){
 //        this.password = new BCryptPasswordEncoder().encode(this.password);

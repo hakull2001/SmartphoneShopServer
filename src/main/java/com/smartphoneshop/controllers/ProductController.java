@@ -1,7 +1,7 @@
 package com.smartphoneshop.controllers;
 
+
 import com.smartphoneshop.dto.ProductDTO;
-import com.smartphoneshop.entity.Category;
 import com.smartphoneshop.entity.Product;
 import com.smartphoneshop.entity.ProductImage;
 import com.smartphoneshop.services.ICategoryService;
@@ -10,11 +10,11 @@ import com.smartphoneshop.services.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
+
 
 @RestController
 @RequestMapping(value = "/api/v1/products")

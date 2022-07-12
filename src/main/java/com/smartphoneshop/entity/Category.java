@@ -2,8 +2,6 @@ package com.smartphoneshop.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.io.Serializable;
