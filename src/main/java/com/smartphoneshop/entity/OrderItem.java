@@ -1,6 +1,6 @@
 package com.smartphoneshop.entity;
 
-import com.smartphoneshop.entity.Enum.EStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,16 +29,18 @@ public class OrderItem {
     @Column(name = "received_Date",columnDefinition = "null")
     @Temporal(TemporalType.DATE)
     private Date receivedDate;
-
-    @Column(name = "`status`",columnDefinition = "Processing")
-    @Enumerated(EnumType.STRING)
-    private EStatus status;
+//
+//    @Column(name = "`status`",columnDefinition = "Processing")
+//    @Enumerated(EnumType.STRING)
+//    private EStatus status;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "order_Id")
     private Order order;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "product_Id")
     private Product product;
 }

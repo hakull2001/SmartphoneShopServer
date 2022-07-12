@@ -1,10 +1,8 @@
 package com.smartphoneshop.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.smartphoneshop.entity.Enum.ERole;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
@@ -32,7 +30,7 @@ public class User implements Serializable {
     private  String fullName;
 
     @Column(name = "`password`",length = 255,nullable = false)
-    private String passWord;
+    private String password;
 
     @Column(name = "phone",length = 15,nullable = false, unique = true)
     private String phoneNumber;
@@ -40,16 +38,14 @@ public class User implements Serializable {
     @Column(name = "address",length = 500,nullable = false)
     private String address;
 
-    @Column(name = "`role`",columnDefinition = "Client")
-    @Enumerated(EnumType.STRING)
-    private ERole role;
+    @Column(name = "`role`")
+    private String role;
 
     @Column(name = "`status`")
     private short status;
 
     @Column(name = "avatar",nullable = false,length = 500)
     private String avatar;
-
 
     @OneToOne(mappedBy = "user")
     @JsonIgnore
@@ -65,5 +61,8 @@ public class User implements Serializable {
     @JsonIgnore
     @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     private List<ProductRates> productRatesList;
-
+//    @PrePersist
+//    public void PrePersist(){
+//        this.password = new BCryptPasswordEncoder().encode(this.password);
+//    }
 }

@@ -1,7 +1,11 @@
 package com.smartphoneshop.services;
 
-public interface IProductImageService {
+import com.smartphoneshop.entity.ProductImage;
 
+public interface IProductImageService {
+    ProductImage findByImageUrl(String imageUrl);
+
+    ProductImage create(ProductImage productImage);
 
 
 }
