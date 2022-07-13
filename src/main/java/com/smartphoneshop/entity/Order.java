@@ -1,6 +1,5 @@
 package com.smartphoneshop.entity;
 
-import com.smartphoneshop.entity.Enum.EStatus;
 import lombok.Data;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CreationTimestamp;

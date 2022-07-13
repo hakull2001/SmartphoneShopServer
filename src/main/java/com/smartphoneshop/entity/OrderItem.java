@@ -2,7 +2,6 @@ package com.smartphoneshop.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.smartphoneshop.entity.Enum.EStatus;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -29,8 +28,7 @@ public class OrderItem {
     private Date receivedDate;
 
     @Column(name = "`status`",columnDefinition = "Processing")
-    @Enumerated(EnumType.STRING)
-    private EStatus status;
+    private String status;
 
     @ManyToOne
     @JoinColumn(name = "order_Id")
