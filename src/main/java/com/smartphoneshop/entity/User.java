@@ -1,9 +1,10 @@
 package com.smartphoneshop.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -47,33 +48,17 @@ public class User implements Serializable {
     @Column(name = "avatar",nullable = false,length = 500)
     private String avatar;
 
-
-//
-//    @OneToOne(mappedBy = "user")
-//    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-//    private Cart cart;
-//
-//    @OneToOne(mappedBy = "user")
-//    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-//    private  Order  order;
-//
     @OneToMany(mappedBy = "user")
-    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+    @JsonBackReference
     private List<ProductRates> productRate;
 
     @OneToOne(mappedBy = "user")
-    @JsonIgnore
-    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+    @JsonBackReference
     private Cart cart;
 
     @OneToOne(mappedBy = "user")
-    @JsonIgnore
+    @JsonBackReference
     private  Order  order;
-
-    @OneToMany(mappedBy = "user")
-    @JsonIgnore
-    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-    private List<ProductRates> productRatesList;
 
 //    @PrePersist
 //    public void PrePersist(){

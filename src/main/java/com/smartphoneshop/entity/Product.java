@@ -1,7 +1,9 @@
 package com.smartphoneshop.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.smartphoneshop.constants.StatusCodeEnum;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -43,10 +45,11 @@ public class Product implements Serializable {
     @Column(name = "amount",nullable = false)
     private Integer amount;
 
-    @Column(name = "`status`",columnDefinition = "1")
-    private short status;
+    @Column(name = "`status`")
+    private StatusCodeEnum status;
 
     @ManyToOne
+    @JsonManagedReference
     @JoinColumn(name = "categoryId",nullable = false)
     private Category category;
 
@@ -55,16 +58,22 @@ public class Product implements Serializable {
     private List<ProductImage> productImages;
 
     @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<ProductRates> productRatesList;
 
     @OneToMany(mappedBy = "product")
-    @JsonIgnore
+    @JsonManagedReference
     private List<CartItem> cartItemList;
 
     @OneToMany(mappedBy = "product")
-    @JsonIgnore
+    @JsonManagedReference
     @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     private List<OrderItem> orderItems;
 
-
+    //Set thuoc tinh cho ban ghi truoc khi luu vao database
+    @PrePersist
+    public void PrePersist(){
+        if(this.status == null)
+            this.status = StatusCodeEnum.OPEN;
+    }
 }

@@ -25,9 +25,6 @@ public class ProductController {
     private IProductService service;
 
     @Autowired
-    private ICategoryService categoryService;
-
-    @Autowired
     private IProductImageService productImageService;
     @GetMapping
     public ResponseEntity<?> getAllProducts(){

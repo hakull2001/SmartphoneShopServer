@@ -1,5 +1,6 @@
 package com.smartphoneshop.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -22,11 +23,13 @@ public class CartItem implements Serializable {
     private Integer amount;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "cart_Id")
     private Cart cart;
 
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "product_Id")
     private Product product;
 

@@ -1,5 +1,6 @@
 package com.smartphoneshop.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -21,11 +22,12 @@ public class Cart implements Serializable {
     private short id;
 
     @OneToOne
+    @JsonManagedReference
     @JoinColumn(name = "user_Id",nullable = false)
     private User user;
 
     @OneToMany(mappedBy = "cart")
-    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+    @JsonManagedReference
     private List<CartItem> cartItemList;
 
 

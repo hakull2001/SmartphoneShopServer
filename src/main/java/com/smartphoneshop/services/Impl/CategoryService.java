@@ -15,9 +15,12 @@ public class CategoryService implements ICategoryService {
     private ICategoryRepository categoryRepository;
 
     @Override
-    public Category findById(Integer id) {
-        return categoryRepository.findById(id).orElse(null);
+    public List<Category> getAllCategories() {
+        return categoryRepository.findAll();
     }
 
-
+    @Override
+    public Category getCategoryById(Integer categoryId) {
+        return categoryRepository.findById(categoryId).orElse(null);
+    }
 }

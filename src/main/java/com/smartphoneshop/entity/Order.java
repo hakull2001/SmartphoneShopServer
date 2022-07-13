@@ -1,6 +1,7 @@
 package com.smartphoneshop.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Cascade;
@@ -20,7 +21,7 @@ public class Order implements Serializable {
     private short id;
 
     @OneToOne
-    @JsonIgnore
+    @JsonManagedReference
     @JoinColumn(name = "user_Id",nullable = false)
     private User user;
 

@@ -1,13 +1,11 @@
 package com.smartphoneshop.controllers;
 
+import com.smartphoneshop.entity.Category;
 import com.smartphoneshop.services.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/v1/categories")
@@ -16,6 +14,18 @@ public class CategoryController {
     @Autowired
     private ICategoryService iCategoryService;
 
+    @GetMapping
+    public ResponseEntity<?> getAllCategories(){
+        return  new ResponseEntity<>(iCategoryService.getAllCategories(),HttpStatus.OK);
+    }
 
+    @GetMapping("{categoryId}")
+    public ResponseEntity<?> getCategoryById(@PathVariable(value = "categoryId") Integer categoryId) throws Exception {
+        Category category = iCategoryService.getCategoryById(categoryId);
+        if(category==null)
+            throw new Exception("Not found category");
+        return new ResponseEntity<>(category,HttpStatus.OK);
+
+    }
 
 }
