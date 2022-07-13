@@ -2,11 +2,15 @@ package com.smartphoneshop.services;
 
 import com.smartphoneshop.entity.Cart;
 import com.smartphoneshop.entity.CartItem;
-
-import java.util.List;
+import com.smartphoneshop.entity.Product;
+import com.smartphoneshop.filter.AddCartParams;
 
 public interface ICartService {
-    List<Cart> getAllCarts();
 
-    Cart getCartByUserId(Integer userId);
+    Cart getCartByUserId(Integer id);
+
+    void addCartItemToCart(AddCartParams params);
+
+
+
 }

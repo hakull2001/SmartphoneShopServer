@@ -6,18 +6,14 @@ import com.smartphoneshop.services.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
-
 @Service
 public class CategoryService implements ICategoryService {
+
     @Autowired
-    private ICategoryRepository categoryRepository;
+    private ICategoryRepository repository;
 
     @Override
-    public Category findById(Integer id) {
-        return categoryRepository.findById(id).orElse(null);
+    public Category getCategoryById(Integer id) {
+        return repository.findCategoryById(id);
     }
-
-
 }
