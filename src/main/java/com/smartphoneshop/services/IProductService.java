@@ -1,5 +1,6 @@
 package com.smartphoneshop.services;
 
+import com.smartphoneshop.dto.ProductDTO;
 import com.smartphoneshop.dto.pagination.PaginateDTO;
 import com.smartphoneshop.entity.Product;
 import com.smartphoneshop.specifications.GenericSpecification;
@@ -14,4 +15,6 @@ public interface IProductService{
     PaginateDTO<Product> getList(Integer page, Integer perPage, GenericSpecification<Product> specification);
 
     Product getProductById(Integer id);
+
+    Product create(ProductDTO productDTO);
 }

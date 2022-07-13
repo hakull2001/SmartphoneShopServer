@@ -5,7 +5,9 @@ import com.smartphoneshop.base.BaseControllerDTO;
 import com.smartphoneshop.dto.ProductDTO;
 import com.smartphoneshop.dto.pagination.PaginateDTO;
 import com.smartphoneshop.entity.Product;
+import com.smartphoneshop.entity.ProductImage;
 import com.smartphoneshop.entity.ProductRate;
+import com.smartphoneshop.services.IProductImageService;
 import com.smartphoneshop.services.IProductRateService;
 import com.smartphoneshop.services.IProductService;
 import com.smartphoneshop.specifications.GenericSpecification;
@@ -14,9 +16,11 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,12 +35,10 @@ public class ProductController extends BaseController<Product> {
     private IProductRateService productRateService;
 
     @Autowired
-    private ModelMapper modelMapper;
+    private IProductImageService productImageService;
 
-//    @GetMapping
-//    public ResponseEntity<?> getListProducts(){
-//        return new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
-//    }
+    @Autowired
+    private ModelMapper modelMapper;
 
     @GetMapping
     public ResponseEntity<?> getList(@RequestParam(name="page", required = false) Integer page,
@@ -50,7 +52,7 @@ public class ProductController extends BaseController<Product> {
         for (Product product : paginateTours.getPageData().getContent()){
             //1
             List<ProductRate> list = productRateService.findListProductRatesByProductId(product.getId());
-            product.setProductRate(list);
+            product.setProductRatesList(list);
         }
         return this.resPagination(paginateTours);
     }
@@ -61,5 +63,16 @@ public class ProductController extends BaseController<Product> {
         if(product == null)
             throw new Exception("Can not find this product!");
         return new ResponseEntity<>(product, HttpStatus.OK);
+    }
+
+    @PostMapping
+    @PreAuthorize("@userAuthorizer.isAdmin(authentication)")
+    public ResponseEntity<?> createProduct(@RequestBody @Valid ProductDTO productDTO) throws Exception {
+        Product product = productService.create(productDTO);
+        for (ProductImage productImage : product.getProductImages()){
+            productImage.setProduct(product);
+            productImageService.create(productImage);
+        }
+        return new ResponseEntity<>("CREATE SUCCESSFUL", HttpStatus.CREATED);
     }
 }
