@@ -1,8 +1,7 @@
 package com.smartphoneshop.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.smartphoneshop.constants.StatusCodeEnum;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -24,15 +23,10 @@ public class Category implements Serializable {
     private String name;
 
     @Column(name = "`status`")
-    private StatusCodeEnum status;
+    private short status;
 
     @OneToMany(mappedBy = "category", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JsonBackReference
+    @JsonManagedReference
     private List<Product> products;
 
-    @PrePersist
-    public void PrePersist(){
-        if(this.status==null)
-            this.status = StatusCodeEnum.OPEN;
-    }
 }

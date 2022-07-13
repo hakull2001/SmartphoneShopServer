@@ -4,9 +4,9 @@ import com.smartphoneshop.entity.Category;
 
 import java.util.List;
 
-
 public interface ICategoryService {
-   List<Category> getAllCategories();
 
-   Category getCategoryById(Integer categoryId);
+    Category getCategoryById(Integer id);
+
+    List<Category> getAllCategory();
 }

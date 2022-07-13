@@ -1,9 +1,7 @@
 package com.smartphoneshop.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.smartphoneshop.constants.StatusCodeEnum;
+import com.smartphoneshop.constants.StatusCodeProductEnum;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -31,11 +29,11 @@ public class Product implements Serializable {
     @Column(name = "`descriptions`",length = 1000,nullable = false)
     private String descriptions;
 
-    @Column(nullable = false)
-    private Integer originalPrice;
+    @Column(name = "originalPrice",nullable = false)
+    private int originalPrice;
 
-    @Column(nullable = false)
-    private Integer promotionPrice;
+    @Column(name = "promotionPrice",nullable = false)
+    private int promotionPrice;
 
     @Column(name = "`created_Date`")
     @Temporal(TemporalType.TIMESTAMP)
@@ -43,37 +41,45 @@ public class Product implements Serializable {
     private Date createdDate;
 
     @Column(name = "amount",nullable = false)
-    private Integer amount;
+    private short amount;
 
-    @Column(name = "`status`")
-    private StatusCodeEnum status;
+    @Column(name = "`status`" , columnDefinition = "1")
+    private StatusCodeProductEnum status;
+
+    public Product(String title, String descriptions, int originalPrice, int promotionPrice, short amount) {
+        this.title = title;
+        this.descriptions = descriptions;
+        this.originalPrice = originalPrice;
+        this.promotionPrice = promotionPrice;
+        this.amount = amount;
+    }
 
     @ManyToOne
-    @JsonManagedReference
+    @JsonIgnore
     @JoinColumn(name = "categoryId",nullable = false)
     private Category category;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @OneToMany(mappedBy = "product")
+    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     private List<ProductImage> productImages;
 
-    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
-    @JsonIgnore
-    private List<ProductRates> productRatesList;
+    @OneToMany(mappedBy = "product")
+    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+    private List<ProductRate> productRatesList;
 
     @OneToMany(mappedBy = "product")
-    @JsonManagedReference
+    @JsonIgnore
+    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     private List<CartItem> cartItemList;
 
     @OneToMany(mappedBy = "product")
-    @JsonManagedReference
+    @JsonIgnore
     @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     private List<OrderItem> orderItems;
 
-    //Set thuoc tinh cho ban ghi truoc khi luu vao database
     @PrePersist
     public void PrePersist(){
         if(this.status == null)
-            this.status = StatusCodeEnum.OPEN;
+            this.status = StatusCodeProductEnum.OPENING;
     }
 }

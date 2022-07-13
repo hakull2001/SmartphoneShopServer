@@ -16,7 +16,7 @@ public class CategoryController {
 
     @GetMapping
     public ResponseEntity<?> getAllCategories(){
-        return  new ResponseEntity<>(iCategoryService.getAllCategories(),HttpStatus.OK);
+        return  new ResponseEntity<>(iCategoryService.getAllCategory(),HttpStatus.OK);
     }
 
     @GetMapping("{categoryId}")

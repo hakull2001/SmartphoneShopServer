@@ -1,5 +1,5 @@
 package com.smartphoneshop.constants;
 
 public enum StatusCodeEnum {
-    CLOSE, OPEN
+    NOT_ACTIVE, ACTIVE
 }

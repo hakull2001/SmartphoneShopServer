@@ -1,9 +1,7 @@
 package com.smartphoneshop.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
@@ -12,22 +10,19 @@ import java.util.List;
 
 @Data
 @Entity
-@NoArgsConstructor
 @Table(name = "cart")
 public class Cart implements Serializable {
-
     @Column(name = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private short id;
+    private Integer id;
 
     @OneToOne
-    @JsonManagedReference
     @JoinColumn(name = "user_Id",nullable = false)
+    @JsonIgnore
     private User user;
 
-    @OneToMany(mappedBy = "cart")
-    @JsonManagedReference
+    @OneToMany(mappedBy = "cart",fetch = FetchType.EAGER)
     private List<CartItem> cartItemList;
 
 

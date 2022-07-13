@@ -1,10 +1,9 @@
 package com.smartphoneshop.services;
 
-import com.smartphoneshop.entity.ProductRates;
-import org.springframework.stereotype.Service;
+import com.smartphoneshop.entity.ProductRate;
 
 import java.util.List;
 
 public interface IProductRateService {
-    List<ProductRates> getListProductRates(Integer productId);
+    List<ProductRate> findListProductRatesByProductId(Integer productId);
 }

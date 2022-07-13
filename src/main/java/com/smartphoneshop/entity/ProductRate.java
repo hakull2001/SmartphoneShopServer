@@ -16,11 +16,11 @@ import java.util.Date;
 @Entity
 @NoArgsConstructor
 @Table(name = "`PRODUCT_RATES`" )
-public class ProductRates implements Serializable {
+public class ProductRate implements Serializable {
     @Column(name = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private short id;
+    private Integer id;
 
     @ManyToOne
     @JsonManagedReference

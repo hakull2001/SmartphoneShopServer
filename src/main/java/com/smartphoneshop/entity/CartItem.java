@@ -1,8 +1,12 @@
 package com.smartphoneshop.entity;
 
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -13,7 +17,6 @@ import java.io.Serializable;
 @Table(name = "cartItems")
 public class CartItem implements Serializable {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -23,14 +26,18 @@ public class CartItem implements Serializable {
     private Integer amount;
 
     @ManyToOne
-    @JsonBackReference
+    @JsonIgnore
     @JoinColumn(name = "cart_Id")
     private Cart cart;
 
-
     @ManyToOne
-    @JsonBackReference
+    @JsonManagedReference
     @JoinColumn(name = "product_Id")
     private Product product;
 
+    public CartItem(Integer amount, Cart cart, Product product) {
+        this.amount = amount;
+        this.cart = cart;
+        this.product = product;
+    }
 }

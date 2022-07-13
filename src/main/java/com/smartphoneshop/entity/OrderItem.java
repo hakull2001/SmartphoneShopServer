@@ -1,10 +1,8 @@
 package com.smartphoneshop.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -12,14 +10,13 @@ import java.util.Date;
 
 @Data
 @Entity
-@NoArgsConstructor
 @Table(name = "orderItems")
 public class OrderItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Integer id;
+
 
     @Column(name = "created_Date")
     @Temporal(TemporalType.TIMESTAMP)
@@ -30,13 +27,16 @@ public class OrderItem {
     @Temporal(TemporalType.DATE)
     private Date receivedDate;
 
+    @Column(name = "`status`",columnDefinition = "Processing")
+    private String status;
+
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "order_Id")
+    @JsonIgnore
     private Order order;
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "product_Id")
+    @JsonManagedReference
     private Product product;
 }

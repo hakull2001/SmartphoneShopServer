@@ -2,6 +2,7 @@ package com.smartphoneshop.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -34,4 +35,7 @@ public class ProductImage implements Serializable {
     @JoinColumn(name = "product_Id")
     private Product product;
 
+    public ProductImage(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 }
