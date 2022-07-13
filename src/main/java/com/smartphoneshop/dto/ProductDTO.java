@@ -1,48 +1,39 @@
 package com.smartphoneshop.dto;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.smartphoneshop.entity.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.util.Date;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class ProductDTO {
+    @NotBlank
+    @Length(min = 20)
     private String title;
 
+    @NotBlank
+    @Length(max = 500)
     private String descriptions;
 
-    private int originalPrice;
+    private Integer originalPrice;
 
-    private int promotionPrice;
+    private Integer promotionPrice;
 
-    private Date createdDate;
+    private Integer categoryId;
 
-    private short amount;
+    private Integer amount;
 
-    private short status;
-
-    private List<ProductImage> productImages;
-
-    private List<ProductRateDTO> productRate;
+    private List<ProductImagesDTO> productImages;
     @Data
     @NoArgsConstructor
-    static class ProductRateDTO{
-        @JsonProperty("productRateId")
-        private Integer id;
-
-        private User user;
-
-        private Integer value;
-
-        private String comment;
-
-        private Date createdAt;
+    static class ProductImagesDTO{
+        @NotBlank
+        private String imageUrl;
     }
-
 }
+

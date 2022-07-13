@@ -1,8 +1,9 @@
 package com.smartphoneshop.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -11,8 +12,9 @@ import java.util.Date;
 
 @Data
 @Entity
+@NoArgsConstructor
 @Table(name = "`PRODUCT_RATES`" )
-public class ProductRate implements Serializable {
+public class ProductRates implements Serializable {
     @Column(name = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,8 +25,8 @@ public class ProductRate implements Serializable {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "product_Id")
     @JsonIgnore
+    @JoinColumn(name = "product_Id",nullable = false)
     private Product product;
 
     @Column(name = "`value`",nullable = false)
