@@ -1,4 +1,4 @@
-package com.smartphoneshop.config;
+package com.smartphoneshop.configs;
 
 import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;

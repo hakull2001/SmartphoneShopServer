@@ -1,5 +1,6 @@
 package com.smartphoneshop.controllers;
 
+import com.smartphoneshop.constants.StatusCodeProductEnum;
 import com.smartphoneshop.entity.Product;
 import com.smartphoneshop.forms.CreateProductForm;
 import com.smartphoneshop.forms.UpdateProductForm;
@@ -37,7 +38,7 @@ public class ProductController {
         Page<Product> products = service.getAllProducts(pageable);
         List<Product> products1 = new ArrayList<>();
         for (Product product:products) {
-            if(product.getStatus() == 1)
+            if(product.getStatus() == StatusCodeProductEnum.OPENING)
                 products1.add(product);
         }
         Page<Product> prod = new PageImpl<>(products1 , pageable , products.getTotalElements());

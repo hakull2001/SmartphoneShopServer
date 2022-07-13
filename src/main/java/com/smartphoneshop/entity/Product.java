@@ -1,6 +1,7 @@
 package com.smartphoneshop.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.smartphoneshop.constants.StatusCodeProductEnum;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -42,8 +43,8 @@ public class Product implements Serializable {
     @Column(name = "amount",nullable = false)
     private short amount;
 
-    @Column(name = "`status`")
-    private short status = 1;
+    @Column(name = "`status`" , columnDefinition = "1")
+    private StatusCodeProductEnum status;
 
     public Product(String title, String descriptions, int originalPrice, int promotionPrice, short amount) {
         this.title = title;
@@ -64,7 +65,7 @@ public class Product implements Serializable {
 
     @OneToMany(mappedBy = "product")
     @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-    private List<ProductRates> productRatesList;
+    private List<ProductRate> productRatesList;
 
     @OneToMany(mappedBy = "product")
     @JsonIgnore
@@ -76,5 +77,9 @@ public class Product implements Serializable {
     @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     private List<OrderItem> orderItems;
 
-
+    @PrePersist
+    public void PrePersist(){
+        if(this.status == null)
+            this.status = StatusCodeProductEnum.OPENING;
+    }
 }

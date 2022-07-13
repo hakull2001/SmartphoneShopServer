@@ -29,8 +29,5 @@ public class CartController {
         service.addCartItemToCart(params);
         return new ResponseEntity<>("add to cart successful", HttpStatus.OK);
     }
-
-
-
-
 }
+

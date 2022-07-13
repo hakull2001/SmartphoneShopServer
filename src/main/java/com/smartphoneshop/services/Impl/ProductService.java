@@ -1,5 +1,6 @@
 package com.smartphoneshop.services.Impl;
 
+import com.smartphoneshop.constants.StatusCodeProductEnum;
 import com.smartphoneshop.entity.Product;
 import com.smartphoneshop.forms.CreateProductForm;
 import com.smartphoneshop.forms.UpdateProductForm;
@@ -27,6 +28,8 @@ public class ProductService implements IProductService {
 
     @Autowired
     private ICategoryService categoryService;
+
+
 
     @Override
     public Page<Product> getAllProducts(Pageable pageable) {
@@ -69,16 +72,16 @@ public class ProductService implements IProductService {
     @Override
     public void unLockProductStatus(Integer id) {
         Product product = repository.findProductById(id);
-        if(product.getStatus() == 0)
-            product.setStatus((short) 1);
+        if(product.getStatus() == StatusCodeProductEnum.CLOSED)
+            product.setStatus(StatusCodeProductEnum.OPENING);
         repository.save(product);
     }
 
     @Override
     public void lockProductStatus(Integer id) {
         Product product = repository.findProductById(id);
-        if(product.getStatus() == 1)
-            product.setStatus((short) 0);
+        if(product.getStatus() == StatusCodeProductEnum.OPENING)
+            product.setStatus(StatusCodeProductEnum.CLOSED);
         repository.save(product);
 
 

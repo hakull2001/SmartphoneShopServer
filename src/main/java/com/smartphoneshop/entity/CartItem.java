@@ -41,4 +41,3 @@ public class CartItem implements Serializable {
         this.product = product;
     }
 }
-
