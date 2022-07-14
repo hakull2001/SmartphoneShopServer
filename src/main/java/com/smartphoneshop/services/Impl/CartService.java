@@ -2,11 +2,13 @@ package com.smartphoneshop.services.Impl;
 
 import com.smartphoneshop.entity.Cart;
 import com.smartphoneshop.entity.CartItem;
+import com.smartphoneshop.entity.OrderItem;
 import com.smartphoneshop.entity.Product;
 import com.smartphoneshop.filter.AddCartParams;
 import com.smartphoneshop.repositories.ICartRepository;
 import com.smartphoneshop.services.ICartItemService;
 import com.smartphoneshop.services.ICartService;
+import com.smartphoneshop.services.IOrderItemService;
 import com.smartphoneshop.services.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,9 @@ public class CartService implements ICartService {
 
     @Autowired
     private IProductService productService;
+
+    @Autowired
+    private IOrderItemService orderItemService;
 
     @Override
     public Cart getCartByUserId(Integer id) {
@@ -51,6 +56,26 @@ public class CartService implements ICartService {
         }
     }
 
+    @Override
+    public void buyCartItem(Integer userId , Integer cartItemId) {
+        Cart cart = repository.findCartByUserId(userId);
+        CartItem cartItem = cartItemService.getCartItemById(cartItemId);
+        OrderItem orderItem = new OrderItem(cartItem.getAmount() ,cart.getUser().getOrder() , cartItem.getProduct());
+        orderItemService.createOrderItems(orderItem);
+        cartItemService.deleteById(cartItemId);
+    }
+
+    @Override
+    public void buyListCartItems(Integer userId) {
+        Cart cart = repository.findCartByUserId(userId);
+        List<Integer> listId = new ArrayList<>();
+        for (CartItem item: cart.getCartItemList()) {
+            OrderItem orderItem = new OrderItem(item.getAmount() , item.getCart().getUser().getOrder() , item.getProduct());
+            orderItemService.createOrderItems(orderItem);
+            listId.add(item.getId());
+        }
+        cartItemService.deleteByIdIn(listId);
+    }
 
 
 }
