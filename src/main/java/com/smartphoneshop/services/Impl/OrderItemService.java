@@ -1,20 +1,56 @@
 package com.smartphoneshop.services.Impl;
 
+import com.smartphoneshop.constants.StatusOrderItem;
 import com.smartphoneshop.entity.OrderItem;
 import com.smartphoneshop.repositories.IOrderItemRepository;
 import com.smartphoneshop.services.IOrderItemService;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 @Service
 public class OrderItemService implements IOrderItemService {
+
+    private static final DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+
     @Autowired
-    private IOrderItemRepository iOrderItemRepository;
+    private IOrderItemRepository repository;
 
 
     @Override
-    public List<OrderItem> getAllOrderItemById(Integer id) {
-        return iOrderItemRepository.findAll();
+    public List<OrderItem> getAllOrderItemsByStatus(StatusOrderItem status) {
+        return repository.findOrderItemsByStatusIs(status);
+    }
+
+    @Override
+    public void createOrderItems(OrderItem orderItem) {
+        repository.save(orderItem);
+    }
+
+    @Override
+    public void updateOrderItemStatus(Integer id, StatusOrderItem status) {
+        OrderItem orderItem = repository.findOrderItemById(id);
+        if(orderItem.getStatus() == StatusOrderItem.Processing && status == StatusOrderItem.Processed){
+            orderItem.setStatus(StatusOrderItem.Processed);
+        }else if(orderItem.getStatus() == StatusOrderItem.Processed && status == StatusOrderItem.Delivering){
+            orderItem.setStatus(StatusOrderItem.Delivering);
+        }else if(orderItem.getStatus() == StatusOrderItem.Delivering && status == StatusOrderItem.Complete){
+            orderItem.setStatus(StatusOrderItem.Complete);
+            dateFormat.format(orderItem.getCreatedDate());
+            Calendar c = Calendar.getInstance();
+            c.setTime(orderItem.getCreatedDate());
+            c.add(Calendar.DATE,3);
+            Date currentDatePlusOne = c.getTime();
+            dateFormat.format(currentDatePlusOne);
+            orderItem.setReceivedDate(currentDatePlusOne);
+        }
+        repository.save(orderItem);
     }
 }

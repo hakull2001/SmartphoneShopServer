@@ -12,6 +12,10 @@ public interface ICartService {
 
     void addCartItemToCart(AddCartParams params);
 
+    void buyCartItem(Integer userId , Integer cartItemId);
+
+    void buyListCartItems(Integer userId);
+
 
 
 }

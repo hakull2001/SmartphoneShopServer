@@ -1,9 +1,17 @@
 package com.smartphoneshop.services;
 
+import com.smartphoneshop.constants.StatusOrderItem;
 import com.smartphoneshop.entity.OrderItem;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
 public interface IOrderItemService {
-    public List<OrderItem> getAllOrderItemById(Integer id);
+
+    List<OrderItem> getAllOrderItemsByStatus(StatusOrderItem status);
+
+    void createOrderItems(OrderItem orderItem);
+
+    void updateOrderItemStatus(Integer id , StatusOrderItem status);
 }
+

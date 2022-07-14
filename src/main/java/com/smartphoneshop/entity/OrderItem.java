@@ -2,13 +2,19 @@ package com.smartphoneshop.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.smartphoneshop.constants.StatusCodeProductEnum;
+import com.smartphoneshop.constants.StatusOrderItem;
+//import com.smartphoneshop.constants.StatusOrderItemConvert;
+import com.smartphoneshop.constants.StatusOrderItemConvert;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Data
+@NoArgsConstructor
 @Entity
 @Table(name = "orderItems")
 public class OrderItem {
@@ -27,8 +33,15 @@ public class OrderItem {
     @Temporal(TemporalType.DATE)
     private Date receivedDate;
 
+
+    @Column(name = "amount" ,  nullable = false)
+    private Integer Amount;
+
+
     @Column(name = "`status`",columnDefinition = "Processing")
-    private String status;
+    @Convert(converter = StatusOrderItemConvert.class)
+    private StatusOrderItem status;
+
 
     @ManyToOne
     @JoinColumn(name = "order_Id")
@@ -39,4 +52,17 @@ public class OrderItem {
     @JoinColumn(name = "product_Id")
     @JsonManagedReference
     private Product product;
+
+
+    @PrePersist
+    public void PrePersist(){
+        if(this.status == null)
+            this.status = StatusOrderItem.Processing;
+    }
+
+    public OrderItem(Integer amount, Order order, Product product) {
+        Amount = amount;
+        this.order = order;
+        this.product = product;
+    }
 }

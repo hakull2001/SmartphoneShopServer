@@ -3,6 +3,7 @@ package com.smartphoneshop.controllers;
 import com.smartphoneshop.filter.AddCartParams;
 import com.smartphoneshop.services.ICartService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,10 +25,23 @@ public class CartController {
     }
 
 
-    @PostMapping
+    @PostMapping(value = "/addCartItem")
     public ResponseEntity<?> addCartItemToCart(@RequestBody AddCartParams params){
         service.addCartItemToCart(params);
         return new ResponseEntity<>("add to cart successful", HttpStatus.OK);
     }
+
+    @PostMapping(value = "/buyCartItem")
+    public ResponseEntity<?> buyCartItem(@Param("userId") Integer userId , @Param("cartItemId") Integer cartItemId ){
+        service.buyCartItem(userId , cartItemId);
+        return new ResponseEntity<>("Buy cart items successful", HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/buyListCartItems/{userId}")
+    public ResponseEntity<?> buyListCartItems(@PathVariable("userId") Integer userId){
+        service.buyListCartItems(userId);
+        return new ResponseEntity<>("Buy all cart items successful", HttpStatus.OK);
+    }
+
 }
 
