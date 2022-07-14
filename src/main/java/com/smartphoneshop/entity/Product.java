@@ -29,10 +29,10 @@ public class Product implements Serializable {
     @Column(name = "`descriptions`",length = 1000,nullable = false)
     private String descriptions;
 
-    @Column(name = "original_Price",nullable = false)
+    @Column(name = "originalPrice",nullable = false)
     private int originalPrice;
 
-    @Column(name = "promotion_Price",nullable = false)
+    @Column(name = "promotionPrice",nullable = false)
     private int promotionPrice;
 
     @Column(name = "`created_Date`")
@@ -56,7 +56,7 @@ public class Product implements Serializable {
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name = "cate_Id",nullable = false)
+    @JoinColumn(name = "categoryId",nullable = false)
     private Category category;
 
     @OneToMany(mappedBy = "product")
