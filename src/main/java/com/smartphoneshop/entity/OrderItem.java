@@ -35,7 +35,7 @@ public class OrderItem {
 
 
     @Column(name = "amount" ,  nullable = false)
-    private Integer Amount;
+    private Integer amount;
 
 
     @Column(name = "`status`",columnDefinition = "Processing")
@@ -61,7 +61,7 @@ public class OrderItem {
     }
 
     public OrderItem(Integer amount, Order order, Product product) {
-        Amount = amount;
+        this.amount = amount;
         this.order = order;
         this.product = product;
     }
