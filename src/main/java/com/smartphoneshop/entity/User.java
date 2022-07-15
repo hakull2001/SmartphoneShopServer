@@ -53,7 +53,7 @@ public class User implements Serializable {
 
     @OneToOne(mappedBy = "user")
     @JsonIgnore
-    private  Order  order;
+    private  Order order;
 
     @PrePersist
     public void prePersist() {
