@@ -20,9 +20,11 @@ public interface IProductService{
 
     Product createProduct(CreateProductForm form);
 
-    boolean updateProduct(Integer id, UpdateProductForm form);
+    void updateProduct(Integer id, UpdateProductForm form);
 
     void unLockProductStatus(Integer id);
 
     void lockProductStatus(Integer id);
+
+    boolean existsProductByTitle(String title);
 }
