@@ -1,8 +1,6 @@
 package com.smartphoneshop.services;
 
-import com.smartphoneshop.entity.Cart;
 import com.smartphoneshop.entity.CartItem;
-import com.smartphoneshop.filter.AddCartParams;
 
 import java.util.List;
 

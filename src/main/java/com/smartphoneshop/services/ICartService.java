@@ -1,11 +1,7 @@
 package com.smartphoneshop.services;
 
-import com.smartphoneshop.dto.pagination.PaginateDTO;
 import com.smartphoneshop.entity.Cart;
-import com.smartphoneshop.entity.CartItem;
-import com.smartphoneshop.entity.Category;
-import com.smartphoneshop.entity.Product;
-import com.smartphoneshop.filter.AddCartParams;
+import com.smartphoneshop.filters.AddCartParams;
 
 public interface ICartService {
     Cart getCartByUserId(Integer id);

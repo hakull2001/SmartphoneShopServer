@@ -1,8 +1,10 @@
 package com.smartphoneshop.services;
 
+import com.smartphoneshop.dto.pagination.PaginateDTO;
 import com.smartphoneshop.entity.Product;
 import com.smartphoneshop.forms.CreateProductForm;
 import com.smartphoneshop.forms.UpdateProductForm;
+import com.smartphoneshop.specifications.GenericSpecification;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -12,7 +14,7 @@ import java.util.List;
 public interface IProductService{
 
 
-    public Page<Product> getAllProducts(Pageable pageable);
+    public PaginateDTO<Product> getAllProducts(Integer page, Integer perPage, GenericSpecification<Product> specification);
 
     public Product getProductById(Integer id);
 

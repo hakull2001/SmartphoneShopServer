@@ -4,7 +4,7 @@ import com.smartphoneshop.entity.Cart;
 import com.smartphoneshop.entity.CartItem;
 import com.smartphoneshop.entity.OrderItem;
 import com.smartphoneshop.entity.Product;
-import com.smartphoneshop.filter.AddCartParams;
+import com.smartphoneshop.filters.AddCartParams;
 import com.smartphoneshop.repositories.ICartRepository;
 import com.smartphoneshop.services.ICartItemService;
 import com.smartphoneshop.services.ICartService;
