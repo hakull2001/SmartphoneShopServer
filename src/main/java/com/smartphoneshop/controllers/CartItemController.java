@@ -1,6 +1,5 @@
 package com.smartphoneshop.controllers;
 
-import com.smartphoneshop.filter.AddCartParams;
 import com.smartphoneshop.services.ICartItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

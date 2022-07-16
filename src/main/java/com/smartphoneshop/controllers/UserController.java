@@ -38,7 +38,6 @@ public class UserController extends BaseController<User> {
                                         HttpServletRequest request){
         GenericSpecification<User> specification = new GenericSpecification<User>().getBasicQuery(request);
         PaginateDTO<User> paginateUsers = userService.getList(page, perPage, specification);
-
         return this.resPagination(paginateUsers);
     }
 

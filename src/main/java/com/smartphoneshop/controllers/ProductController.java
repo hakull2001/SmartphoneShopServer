@@ -1,12 +1,18 @@
 package com.smartphoneshop.controllers;
 
+import com.smartphoneshop.base.BaseController;
 import com.smartphoneshop.constants.StatusCodeProductEnum;
+import com.smartphoneshop.dto.pagination.PaginateDTO;
 import com.smartphoneshop.entity.Product;
+import com.smartphoneshop.filters.ProductFilter;
 import com.smartphoneshop.forms.CreateProductForm;
 import com.smartphoneshop.forms.UpdateProductForm;
 import com.smartphoneshop.services.ICategoryService;
 import com.smartphoneshop.services.IProductImageService;
 import com.smartphoneshop.services.IProductService;
+import com.smartphoneshop.specifications.GenericSpecification;
+import com.smartphoneshop.specifications.SearchCriteria;
+import com.smartphoneshop.specifications.SearchOperation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,6 +22,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +30,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/api/v1/products")
 @CrossOrigin("*")
-public class ProductController {
+public class ProductController extends BaseController<Product> {
 
     @Autowired
     private IProductService service;
@@ -34,15 +41,18 @@ public class ProductController {
 //    private ModelMapper modelMapper;
 
     @GetMapping
-    public ResponseEntity<?> getAllProducts(Pageable pageable){
-        Page<Product> products = service.getAllProducts(pageable);
-        List<Product> products1 = new ArrayList<>();
-        for (Product product:products) {
-            if(product.getStatus() == StatusCodeProductEnum.OPENING)
-                products1.add(product);
-        }
-        Page<Product> prod = new PageImpl<>(products1 , pageable , products.getTotalElements());
-        return new ResponseEntity<>(prod , HttpStatus.OK);
+    public ResponseEntity<?> getAllProducts(ProductFilter productFilter, HttpServletRequest request){
+        GenericSpecification<Product> specification = new GenericSpecification<Product>().getBasicQuery(request);
+
+        if(productFilter.getStartId() != null)
+            specification.add(new SearchCriteria("id", productFilter.getStartId(), SearchOperation.GREATER_THAN_EQUAL));
+        if(productFilter.getEndId() != null)
+            specification.add(new SearchCriteria("id", productFilter.getEndId(), SearchOperation.LESS_THAN_EQUAL));
+        if(productFilter.getSearch() != null)
+            specification.add(new SearchCriteria("title", productFilter.getSearch(), SearchOperation.LIKE));
+
+        PaginateDTO<Product> paginateProducts = service.getAllProducts(productFilter.getStartId(), productFilter.getEndId(), specification);
+        return this.resPagination(paginateProducts);
     }
 
 

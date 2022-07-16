@@ -1,6 +1,8 @@
 package com.smartphoneshop.services.Impl;
 
+import com.smartphoneshop.base.BasePagination;
 import com.smartphoneshop.constants.StatusCodeProductEnum;
+import com.smartphoneshop.dto.pagination.PaginateDTO;
 import com.smartphoneshop.entity.Product;
 import com.smartphoneshop.forms.CreateProductForm;
 import com.smartphoneshop.forms.UpdateProductForm;
@@ -8,6 +10,7 @@ import com.smartphoneshop.repositories.IProductRepository;
 import com.smartphoneshop.services.ICategoryService;
 import com.smartphoneshop.services.IProductImageService;
 import com.smartphoneshop.services.IProductService;
+import com.smartphoneshop.specifications.GenericSpecification;
 import org.hibernate.sql.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,7 +20,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ProductService implements IProductService {
+public class ProductService extends BasePagination<Product, IProductRepository> implements IProductService {
 
 
     @Autowired
@@ -29,11 +32,15 @@ public class ProductService implements IProductService {
     @Autowired
     private ICategoryService categoryService;
 
+    @Autowired
+    public ProductService(IProductRepository iProductRepository){
+        super(iProductRepository);
+    }
 
 
     @Override
-    public Page<Product> getAllProducts(Pageable pageable) {
-        return repository.findAll(pageable);
+    public PaginateDTO<Product> getAllProducts(Integer page, Integer perPage, GenericSpecification<Product> specification) {
+        return this.paginate(page, perPage, specification);
     }
 
     @Override

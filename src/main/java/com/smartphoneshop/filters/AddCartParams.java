@@ -1,4 +1,4 @@
-package com.smartphoneshop.filter;
+package com.smartphoneshop.filters;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

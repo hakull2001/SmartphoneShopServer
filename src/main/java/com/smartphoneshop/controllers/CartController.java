@@ -1,6 +1,6 @@
 package com.smartphoneshop.controllers;
 
-import com.smartphoneshop.filter.AddCartParams;
+import com.smartphoneshop.filters.AddCartParams;
 import com.smartphoneshop.services.ICartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
