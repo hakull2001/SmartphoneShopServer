@@ -3,6 +3,8 @@ package com.smartphoneshop.services.Impl;
 import com.smartphoneshop.entity.CartItem;
 import com.smartphoneshop.repositories.ICartItemRepository;
 import com.smartphoneshop.services.ICartItemService;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +17,8 @@ public class CartItemService implements ICartItemService {
     @Autowired
     private ICartItemRepository repository;
 
-
     @Override
+    @NotFound(action = NotFoundAction.EXCEPTION)
     public CartItem getCartItemById(Integer id) {
         return repository.findCartItemById(id);
     }

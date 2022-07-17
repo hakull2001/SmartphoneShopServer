@@ -1,15 +1,9 @@
 package com.smartphoneshop.services.Impl;
 
-import com.smartphoneshop.entity.Cart;
-import com.smartphoneshop.entity.CartItem;
-import com.smartphoneshop.entity.OrderItem;
-import com.smartphoneshop.entity.Product;
+import com.smartphoneshop.entity.*;
 import com.smartphoneshop.filter.AddCartParams;
 import com.smartphoneshop.repositories.ICartRepository;
-import com.smartphoneshop.services.ICartItemService;
-import com.smartphoneshop.services.ICartService;
-import com.smartphoneshop.services.IOrderItemService;
-import com.smartphoneshop.services.IProductService;
+import com.smartphoneshop.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,8 +25,12 @@ public class CartService implements ICartService {
     @Autowired
     private IOrderItemService orderItemService;
 
+    @Autowired
+    private IOrderService orderService;
+
     @Override
     public Cart getCartByUserId(Integer id) {
+
         return repository.findCartByUserId(id);
     }
 
@@ -53,28 +51,48 @@ public class CartService implements ICartService {
         }
         else{
             cartItemService.createCartItem(new CartItem(params.getAmount() , cart , product));
+            updateCartAmount(cart.getAmount() + 1 , cart);
         }
     }
 
     @Override
     public void buyCartItem(Integer userId , Integer cartItemId) {
         Cart cart = repository.findCartByUserId(userId);
+        Order order = orderService.getOrderByUserId(userId);
         CartItem cartItem = cartItemService.getCartItemById(cartItemId);
         OrderItem orderItem = new OrderItem(cartItem.getAmount() ,cart.getUser().getOrder() , cartItem.getProduct());
         orderItemService.createOrderItems(orderItem);
         cartItemService.deleteById(cartItemId);
+
+        updateCartAmount(cart.getCartItemList().size() , cart);
+        orderService.updateOrderAmount(order.getOrderItems().size(), order);
+
+
+
     }
 
     @Override
     public void buyListCartItems(Integer userId) {
         Cart cart = repository.findCartByUserId(userId);
+        Order order = orderService.getOrderByUserId(userId);
         List<Integer> listId = new ArrayList<>();
         for (CartItem item: cart.getCartItemList()) {
-            OrderItem orderItem = new OrderItem(item.getAmount() , item.getCart().getUser().getOrder() , item.getProduct());
+            OrderItem orderItem = new OrderItem(item.getAmount() , order , item.getProduct());
             orderItemService.createOrderItems(orderItem);
             listId.add(item.getId());
         }
+        orderService.updateOrderAmount(order.getOrderItems().size() , order);
+        this.updateCartAmount(0, cart);
         cartItemService.deleteByIdIn(listId);
+
+
+    }
+
+    @Override
+    public Cart updateCartAmount(Integer amount ,  Cart cart) {
+        cart.setAmount(amount);
+        repository.save(cart);
+        return cart;
     }
 
 

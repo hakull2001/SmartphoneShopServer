@@ -25,7 +25,7 @@ public class CartItem implements Serializable {
     @Column(name = "amount",nullable = false)
     private Integer amount;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JsonIgnore
     @JoinColumn(name = "cart_Id")
     private Cart cart;

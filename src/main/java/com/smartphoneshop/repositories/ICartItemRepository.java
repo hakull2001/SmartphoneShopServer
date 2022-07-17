@@ -9,5 +9,7 @@ public interface ICartItemRepository extends JpaRepository<CartItem , Integer> {
 
     CartItem findCartItemById(Integer id);
 
+    void deleteById(Integer id);
+
     void deleteByIdIn(List<Integer> ids);
 }

@@ -21,5 +21,12 @@ public class OrderService implements IOrderService {
         return repository.findOrderByUserId(userId);
     }
 
+    @Override
+    public Order updateOrderAmount(Integer amount, Order order) {
+        order.setAmount(amount);
+        repository.save(order);
+        return order;
+    }
+
 
 }

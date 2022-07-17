@@ -1,22 +1,33 @@
 package com.smartphoneshop.controllers;
 
+import com.smartphoneshop.base.BaseController;
 import com.smartphoneshop.constants.StatusCodeProductEnum;
+import com.smartphoneshop.dto.pagination.PaginateDTO;
 import com.smartphoneshop.entity.Product;
+import com.smartphoneshop.entity.User;
 import com.smartphoneshop.forms.CreateProductForm;
 import com.smartphoneshop.forms.UpdateProductForm;
 import com.smartphoneshop.services.ICategoryService;
 import com.smartphoneshop.services.IProductImageService;
 import com.smartphoneshop.services.IProductService;
+import com.smartphoneshop.specifications.FilterSearch;
+import com.smartphoneshop.specifications.GenericSpecification;
+import com.smartphoneshop.specifications.SearchCriteria;
+import com.smartphoneshop.specifications.SearchOperation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,25 +37,31 @@ import java.util.List;
 @RequestMapping(value = "/api/v1/products")
 @CrossOrigin("*")
 @Validated
-public class ProductController {
+public class ProductController extends BaseController<Product> {
 
     @Autowired
     private IProductService service;
 
 
-//    @Autowired
-//    private ModelMapper modelMapper;
+    @Autowired
+    private ModelMapper modelMapper;
 
     @GetMapping
-    public ResponseEntity<?> getAllProducts(Pageable pageable){
-        Page<Product> products = service.getAllProducts(pageable);
-        List<Product> products1 = new ArrayList<>();
-        for (Product product:products) {
-            if(product.getStatus() == StatusCodeProductEnum.OPENING)
-                products1.add(product);
+    public ResponseEntity<?> getAllProducts(FilterSearch filterSearch ,
+                                            @RequestParam(required = false , value = "search") String search,
+                                            HttpServletRequest request){
+        GenericSpecification<Product> specification = new GenericSpecification<Product>().getBasicQuery(request);
+        if(filterSearch.getMnId() != null)
+            specification.add(new SearchCriteria("id" , filterSearch.getMnId() , SearchOperation.GREATER_THAN_EQUAL));
+        if(filterSearch.getMxId() != null){
+            specification.add(new SearchCriteria("id" , filterSearch.getMxId() , SearchOperation.LESS_THAN_EQUAL));
         }
-        Page<Product> prod = new PageImpl<>(products1 , pageable , products.getTotalElements());
-        return new ResponseEntity<>(prod , HttpStatus.OK);
+        if(!search.isEmpty() && !search.isBlank()){
+            specification.add(new SearchCriteria("title" , search , SearchOperation.LIKE));
+        }
+        PaginateDTO<Product> paginateProducts = service.getAllProducts(filterSearch.getPage(),
+                                                    filterSearch.getSize(), specification);
+        return this.resPagination(paginateProducts);
     }
 
 
