@@ -1,5 +1,6 @@
 package com.smartphoneshop.controllers;
 
+import com.smartphoneshop.constants.Common;
 import com.smartphoneshop.filters.AddCartParams;
 import com.smartphoneshop.services.ICartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class CartController {
     @PostMapping(value = "/addCartItem")
     public ResponseEntity<?> addCartItemToCart(@RequestBody AddCartParams params){
         service.addCartItemToCart(params);
-        return new ResponseEntity<>("add to cart successful", HttpStatus.OK);
+        return new ResponseEntity<>(Common.MSG_CREATED_SUCCESSFUL_201, HttpStatus.OK);
     }
 
     @PostMapping(value = "/buyCartItem")
