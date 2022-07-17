@@ -1,10 +1,12 @@
 package com.smartphoneshop.controllers;
 
 import com.smartphoneshop.base.BaseController;
+import com.smartphoneshop.constants.Common;
 import com.smartphoneshop.dto.create.CreateCategoryDTO;
 import com.smartphoneshop.dto.pagination.PaginateDTO;
 import com.smartphoneshop.dto.update.UpdateCategoryDTO;
 import com.smartphoneshop.entity.Category;
+import com.smartphoneshop.exceptions.NotFoundException;
 import com.smartphoneshop.services.ICategoryService;
 import com.smartphoneshop.specifications.GenericSpecification;
 import org.hibernate.sql.Update;
@@ -37,10 +39,10 @@ public class CategoryController extends BaseController<Category> {
 
     @GetMapping("/{categoryId}")
     public ResponseEntity<?> getById(@PathVariable(name = "categoryId") Integer categoryId,
-                                     HttpServletRequest request) throws Exception {
+                                     HttpServletRequest request) {
         Category category = categoryService.getCategoryById(categoryId);
         if(category == null)
-            throw new Exception("Not found this category");
+            throw new NotFoundException(Common.MSG_NOT_FOUND);
         return this.resSuccess(category);
     }
 
@@ -48,7 +50,7 @@ public class CategoryController extends BaseController<Category> {
     @PreAuthorize("@userAuthorizer.isAdmin(authentication)")
     public ResponseEntity<?> create(@RequestBody @Valid CreateCategoryDTO categoryDTO) throws Exception {
         categoryService.create(categoryDTO);
-        return new ResponseEntity<>("Create successful", HttpStatus.CREATED);
+        return new ResponseEntity<>(Common.MSG_CREATED_SUCCESSFUL_201, HttpStatus.CREATED);
     }
 
     @PatchMapping("/{categoryId}")
@@ -58,7 +60,7 @@ public class CategoryController extends BaseController<Category> {
         Category category = categoryService.getCategoryById(categoryId);
 
         if(category == null)
-            throw new Exception("Not found category");
+            throw new Exception(Common.MSG_NOT_FOUND);
         Category updateCategory = categoryService.update(categoryDTO, category);
         return this.resSuccess(updateCategory);
     }
@@ -67,6 +69,6 @@ public class CategoryController extends BaseController<Category> {
     @PreAuthorize("@userAuthorizer.isAdmin(authentication)")
     public ResponseEntity<?> delete(@PathVariable(name = "categoryId") Integer categoryId) throws Exception {
         categoryService.deleteById(categoryId);
-        return new ResponseEntity<>("Delete successful", HttpStatus.OK);
+        return new ResponseEntity<>(Common.MSG_DELETE_SUCCESS, HttpStatus.OK);
     }
 }
