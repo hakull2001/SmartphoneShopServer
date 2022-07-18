@@ -40,7 +40,7 @@ public class ProductController extends BaseController<Product> {
         if(productFilter.getSearch() != null)
             specification.add(new SearchCriteria("title", productFilter.getSearch(), SearchOperation.LIKE));
 
-        PaginateDTO<Product> paginateProducts = service.getAllProducts(productFilter.getStartId(), productFilter.getEndId(), specification);
+        PaginateDTO<Product> paginateProducts = service.getAllProducts(productFilter.getPage(), productFilter.getPerPage(), specification);
         return this.resPagination(paginateProducts);
     }
 

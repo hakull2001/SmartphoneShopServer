@@ -1,6 +1,9 @@
 package com.smartphoneshop.constants;
 
 public class Common {
+    public static final String MSG_INITIALIZE_STORAGE = "Could not initialize storage";
+    public static final String PRODUCT_IMAGE_UPLOAD_PATH = "/product-images";
+    public static final String PRODUCT_IMAGE_PATTERN_PATH = "/images/product-images";
     public static final String MSG_SUCCESS = "Thành công";
     public static final String MSG_DELETE_SUCCESS = "Xóa thành công";
     public static final String MSG_CREATED_SUCCESSFUL_201 = "Tạo mới thành công";

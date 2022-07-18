@@ -1,5 +1,6 @@
 package com.smartphoneshop.controllers;
 
+import com.smartphoneshop.constants.Common;
 import com.smartphoneshop.entity.Cart;
 import com.smartphoneshop.filters.AddCartParams;
 import com.smartphoneshop.services.ICartService;
@@ -10,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/api/v1/cart")
+@RequestMapping(value = "/api/v1/carts")
 @CrossOrigin("*")
 public class CartController {
 

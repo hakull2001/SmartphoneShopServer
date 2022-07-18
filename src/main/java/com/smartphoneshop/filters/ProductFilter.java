@@ -11,4 +11,8 @@ public class ProductFilter {
     private Integer endId;
 
     private String search;
+
+    private Integer page;
+
+    private Integer perPage;
 }

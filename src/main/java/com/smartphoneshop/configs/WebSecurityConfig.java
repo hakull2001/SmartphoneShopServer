@@ -47,7 +47,7 @@ public class WebSecurityConfig{
                 .antMatchers("/api/v1/auth/**").permitAll()
                 .antMatchers("/api/v1/categories/**").permitAll()
                 .antMatchers("/api/v1/products/**").permitAll()
-                //.antMatchers("/api/product-images/**").permitAll()
+                .antMatchers("/api/v1/product-images/**").permitAll()
                 .antMatchers("/api/v1/product-rates/**").permitAll()
                 .antMatchers("/api/v1/users/**").authenticated()
 //                .antMatchers("/api/carts/**").authenticated()
