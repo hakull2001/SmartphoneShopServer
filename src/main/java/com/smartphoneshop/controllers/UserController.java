@@ -1,6 +1,7 @@
 package com.smartphoneshop.controllers;
 
 import com.smartphoneshop.base.BaseController;
+import com.smartphoneshop.constants.Common;
 import com.smartphoneshop.dto.UserChangePasswordDTO;
 import com.smartphoneshop.dto.pagination.PaginateDTO;
 import com.smartphoneshop.dto.update.UpdateUserDTO;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -38,7 +38,6 @@ public class UserController extends BaseController<User> {
                                         HttpServletRequest request){
         GenericSpecification<User> specification = new GenericSpecification<User>().getBasicQuery(request);
         PaginateDTO<User> paginateUsers = userService.getList(page, perPage, specification);
-
         return this.resPagination(paginateUsers);
     }
 
@@ -47,7 +46,7 @@ public class UserController extends BaseController<User> {
     public ResponseEntity<?> getUserById(@PathVariable(name = "userId") Integer userId){
         User user = userService.findById(userId);
         if(user == null)
-            throw new NotFoundException("Not found user");
+            throw new NotFoundException(Common.MSG_NOT_FOUND);
         return this.resSuccess(user);
     }
 
@@ -57,7 +56,7 @@ public class UserController extends BaseController<User> {
                                         @PathVariable("userId") Integer userId){
         User user = userService.findById(userId);
         if(user == null)
-            throw new NotFoundException("Not found user");
+            throw new NotFoundException(Common.MSG_NOT_FOUND);
 
         User savedUser = userService.update(userDTO, user);
         return this.resSuccess(savedUser);
@@ -68,16 +67,16 @@ public class UserController extends BaseController<User> {
     public ResponseEntity<?> deleteUser(@PathVariable("userId") Integer userId){
         User user = userService.findById(userId);
         if (user == null) {
-            throw new NotFoundException("Not found user");
+            throw new NotFoundException(Common.MSG_NOT_FOUND);
         }
 
         if (user.getOrder().getOrderItems().size() != 0) {
-            throw new AppException("Cannot delete user");
+            throw new AppException(Common.MSG_DELETE_FAIL);
         }
 
         userService.deleteById(userId);
 
-        return new ResponseEntity<>("Delete user successful", HttpStatus.OK);
+        return new ResponseEntity<>(Common.MSG_DELETE_SUCCESS, HttpStatus.OK);
     }
 
     @PatchMapping("/password")
@@ -87,7 +86,7 @@ public class UserController extends BaseController<User> {
         User user = userService.findByUsername(requestedUser.getUsername());
 
         if (!passwordEncoder.matches(userChangePasswordDTO.getOldPassword(), user.getPassword())) {
-            throw new AppException("oldPassword is incorrect");
+            throw new AppException(Common.MSG_OLD_PASSWORD_INVALID);
         }
 
         user.setPassword(passwordEncoder.encode(userChangePasswordDTO.getNewPassword()));

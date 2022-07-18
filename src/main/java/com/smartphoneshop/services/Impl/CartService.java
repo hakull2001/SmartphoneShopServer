@@ -1,7 +1,7 @@
 package com.smartphoneshop.services.Impl;
 
 import com.smartphoneshop.entity.*;
-import com.smartphoneshop.filter.AddCartParams;
+import com.smartphoneshop.filters.AddCartParams;
 import com.smartphoneshop.repositories.ICartRepository;
 import com.smartphoneshop.services.*;
 import org.springframework.beans.factory.annotation.Autowired;

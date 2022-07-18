@@ -32,6 +32,7 @@ public class CustomExceptionHandler {
 	@ExceptionHandler(NotFoundException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
 	public ErrorResponse handleNotFoundException(NotFoundException ex, WebRequest req) {
+		System.out.printf(req + "\n" + ex);
 		return new ErrorResponse(HttpStatus.NOT_FOUND.value(), ex.getMessage());
 	}
 

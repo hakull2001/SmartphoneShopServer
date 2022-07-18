@@ -5,6 +5,7 @@ import com.smartphoneshop.constants.StatusCodeProductEnum;
 import com.smartphoneshop.dto.pagination.PaginateDTO;
 import com.smartphoneshop.entity.Product;
 import com.smartphoneshop.entity.User;
+import com.smartphoneshop.filters.ProductFilter;
 import com.smartphoneshop.forms.CreateProductForm;
 import com.smartphoneshop.forms.UpdateProductForm;
 import com.smartphoneshop.services.ICategoryService;
@@ -37,7 +38,7 @@ import java.util.List;
 @RequestMapping(value = "/api/v1/products")
 @CrossOrigin("*")
 @Validated
-public class ProductController extends BaseController<Product> {
+public class    ProductController extends BaseController<Product> {
 
     @Autowired
     private IProductService service;
@@ -47,22 +48,20 @@ public class ProductController extends BaseController<Product> {
     private ModelMapper modelMapper;
 
     @GetMapping
-    public ResponseEntity<?> getAllProducts(FilterSearch filterSearch ,
-                                            @RequestParam(required = false , value = "search") String search,
-                                            HttpServletRequest request){
+    public ResponseEntity<?> getAllProducts(ProductFilter productFilter, HttpServletRequest request){
         GenericSpecification<Product> specification = new GenericSpecification<Product>().getBasicQuery(request);
-        if(filterSearch.getMnId() != null)
-            specification.add(new SearchCriteria("id" , filterSearch.getMnId() , SearchOperation.GREATER_THAN_EQUAL));
-        if(filterSearch.getMxId() != null){
-            specification.add(new SearchCriteria("id" , filterSearch.getMxId() , SearchOperation.LESS_THAN_EQUAL));
-        }
-        if(!search.isEmpty() && !search.isBlank()){
-            specification.add(new SearchCriteria("title" , search , SearchOperation.LIKE));
-        }
-        PaginateDTO<Product> paginateProducts = service.getAllProducts(filterSearch.getPage(),
-                                                    filterSearch.getSize(), specification);
+
+        if(productFilter.getStartId() != null)
+            specification.add(new SearchCriteria("id", productFilter.getStartId(), SearchOperation.GREATER_THAN_EQUAL));
+        if(productFilter.getEndId() != null)
+            specification.add(new SearchCriteria("id", productFilter.getEndId(), SearchOperation.LESS_THAN_EQUAL));
+        if(productFilter.getSearch() != null)
+            specification.add(new SearchCriteria("title", productFilter.getSearch(), SearchOperation.LIKE));
+
+        PaginateDTO<Product> paginateProducts = service.getAllProducts(productFilter.getStartId(), productFilter.getEndId(), specification);
         return this.resPagination(paginateProducts);
     }
+
 
 
     @GetMapping(value = "/{id}")
