@@ -57,9 +57,7 @@ public class ProductService extends BasePagination<Product, IProductRepository> 
     public Product createProduct(CreateProductForm form) {
         Product product = form.toEntity();
         product.setCategory(categoryService.getCategoryById(form.getCategoryId()));
-        repository.save(product);
-        product.setProductImages(productImageService.createProductImages(form.getProductImages() , product));
-        return product;
+        return repository.save(product);
     }
 
     @Override
