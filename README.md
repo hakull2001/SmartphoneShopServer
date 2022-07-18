@@ -1,4 +1,4 @@
 # SmartphoneShopServer - Team 15
-#Requirement:
+# Requirement:
 Java JDK 11
 MySQL
