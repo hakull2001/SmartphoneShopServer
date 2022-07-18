@@ -1,6 +1,7 @@
 package com.smartphoneshop.controllers;
 
 
+import com.smartphoneshop.constants.Common;
 import com.smartphoneshop.constants.StatusOrderItem;
 import com.smartphoneshop.services.IOrderItemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class OrderItemController {
     @PutMapping
     public ResponseEntity<?> updateOrderItemStatus(@Param("id") Integer id , @Param("status") StatusOrderItem status){
         service.updateOrderItemStatus(id , status);
-        return new ResponseEntity<>("updated successfull" , HttpStatus.OK);
+        return new ResponseEntity<>(Common.MSG_SUCCESS, HttpStatus.OK);
     }
 
 

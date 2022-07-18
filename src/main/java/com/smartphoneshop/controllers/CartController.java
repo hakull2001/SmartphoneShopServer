@@ -35,13 +35,13 @@ public class CartController {
     @PostMapping(value = "/buyCartItem")
     public ResponseEntity<?> buyCartItem(@Param("userId") Integer userId , @Param("cartItemId") Integer cartItemId ){
         service.buyCartItem(userId , cartItemId);
-        return new ResponseEntity<>("Buy cart items successful", HttpStatus.OK);
+        return new ResponseEntity<>(Common.MSG_BUY_CART_SUCCESS, HttpStatus.OK);
     }
 
     @PostMapping(value = "/buyListCartItems/{userId}")
     public ResponseEntity<?> buyListCartItems(@PathVariable("userId") Integer userId){
         service.buyListCartItems(userId);
-        return new ResponseEntity<>("Buy all cart items successful", HttpStatus.OK);
+        return new ResponseEntity<>(Common.MSG_BUY_ALL_CART_ITEMS_SUCCESS, HttpStatus.OK);
     }
 
 }

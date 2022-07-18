@@ -1,5 +1,6 @@
 package com.smartphoneshop.controllers;
 
+import com.smartphoneshop.constants.Common;
 import com.smartphoneshop.services.ICartItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,19 +22,19 @@ public class CartItemController {
                                                    @PathVariable("Amount") Integer Amount){
 
         service.updateCartItemAmount(id , Amount);
-        return new ResponseEntity<>("updated amount successful", HttpStatus.OK);
+        return new ResponseEntity<>(Common.MSG_UPDATED_AMOUNT_SUCCESS, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> deleteCartItemById(@PathVariable("id") Integer id){
         service.deleteById(id);
-        return new ResponseEntity<>("deleted cart item successfull" , HttpStatus.OK);
+        return new ResponseEntity<>(Common.MSG_DELETE_SUCCESS , HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/list/{ids}")
     public ResponseEntity<?> deleteListCartItemsById(@PathVariable("ids") List<Integer> ids){
         service.deleteByIdIn(ids);
-        return new ResponseEntity<>("deleted list cart item successfull" , HttpStatus.OK);
+        return new ResponseEntity<>(Common.MSG_DELETE_SUCCESS , HttpStatus.OK);
     }
 
 

@@ -1,9 +1,11 @@
 package com.smartphoneshop.controllers;
 
 import com.smartphoneshop.base.BaseController;
+import com.smartphoneshop.constants.Common;
 import com.smartphoneshop.constants.StatusCodeProductEnum;
 import com.smartphoneshop.dto.pagination.PaginateDTO;
 import com.smartphoneshop.entity.Product;
+import com.smartphoneshop.exceptions.NotFoundException;
 import com.smartphoneshop.filters.ProductFilter;
 import com.smartphoneshop.forms.CreateProductForm;
 import com.smartphoneshop.forms.UpdateProductForm;
@@ -20,6 +22,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,11 +37,6 @@ public class ProductController extends BaseController<Product> {
 
     @Autowired
     private IProductService service;
-
-
-
-//    @Autowired
-//    private ModelMapper modelMapper;
 
     @GetMapping
     public ResponseEntity<?> getAllProducts(ProductFilter productFilter, HttpServletRequest request){
@@ -59,21 +57,27 @@ public class ProductController extends BaseController<Product> {
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> getProductById(@PathVariable("id") Integer id){
         Product product  = service.getProductById(id);
-        return new ResponseEntity<>(product , HttpStatus.OK);
+        if(product == null)
+            throw new NotFoundException(Common.MSG_NOT_FOUND);
+        return this.resSuccess(product);
     }
 
     @GetMapping(value = "/title/{title}")
     public ResponseEntity<?> getProductByTitle(@PathVariable("title") String title){
         Product product  = service.getProductByTitle(title);
-        return new ResponseEntity<>(product , HttpStatus.OK);
+        if(product == null)
+            throw new NotFoundException(Common.MSG_NOT_FOUND);
+        return this.resSuccess(product);
     }
 
     @PostMapping
+    @PreAuthorize("@userAuthorizer.isAdmin(authentication)")
     public ResponseEntity<?> createProduct(@RequestBody CreateProductForm form){
         return new ResponseEntity<>(service.createProduct(form),HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/{id}")
+    @PreAuthorize("@userAuthorizer.isAdmin(authentication)")
     public ResponseEntity<?> updateProduct(@PathVariable("id") Integer id , @RequestBody UpdateProductForm form){
         if(service.updateProduct(id,form))
             return new ResponseEntity<>("updated Successful",HttpStatus.OK);
@@ -82,12 +86,14 @@ public class ProductController extends BaseController<Product> {
 
 
     @PutMapping(value = "/unlock/{id}")
+    @PreAuthorize("@userAuthorizer.isAdmin(authentication)")
     public ResponseEntity<?> unLockProduct(@PathVariable("id") Integer id){
         service.unLockProductStatus(id);
         return new ResponseEntity<>("Unlock Product Successfull",HttpStatus.OK);
     }
 
     @PutMapping(value = "/lock/{id}")
+    @PreAuthorize("@userAuthorizer.isAdmin(authentication)")
     public ResponseEntity<?> lockProduct(@PathVariable("id") Integer id){
         service.lockProductStatus(id);
         return new ResponseEntity<>("Lock Product Successfull",HttpStatus.OK);
