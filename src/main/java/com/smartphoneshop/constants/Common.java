@@ -27,4 +27,11 @@ public class Common {
     public static final String MSG_NEW_PASSWORD = "Mật khẩu mới của bạn là: \n";
 
     public static final String MSG_REQUEST_FORGOT_PASSWORD = "Vui lòng kiểm tra email của bạn để lấy mật khẩu mới";
+
+    public static final String MSG_BUY_CART_SUCCESS = "Mua thành công mặt hàng trong giỏ";
+
+    public static final String MSG_BUY_ALL_CART_ITEMS_SUCCESS = "Mua thành công tất cả các mặt hàng trong giỏ";
+
+    public static final String MSG_UPDATED_AMOUNT_SUCCESS = "Cập nhật số lượng thành công";
+
 }
