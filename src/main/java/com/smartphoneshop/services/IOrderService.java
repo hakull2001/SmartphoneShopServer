@@ -9,6 +9,8 @@ public interface IOrderService {
 
     Order getOrderByUserId(Integer userId);
 
+    Order updateOrderAmount(Integer amount , Order order);
+
 
 
 }

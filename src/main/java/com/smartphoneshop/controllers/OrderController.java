@@ -1,5 +1,6 @@
 package com.smartphoneshop.controllers;
 
+import com.smartphoneshop.entity.Order;
 import com.smartphoneshop.services.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,8 @@ public class OrderController {
 
     @GetMapping(value = "/{userId}")
     public ResponseEntity<?> getOrderByUserId(@PathVariable("userId") Integer userId){
-        return  new ResponseEntity<>(service.getOrderByUserId(userId) , HttpStatus.OK);
+        Order order = service.getOrderByUserId(userId);
+        order = service.updateOrderAmount(order.getOrderItems().toArray().length , order);
+        return  new ResponseEntity<>(order , HttpStatus.OK);
     }
 }

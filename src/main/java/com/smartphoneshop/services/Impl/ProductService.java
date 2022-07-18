@@ -56,24 +56,22 @@ public class ProductService extends BasePagination<Product, IProductRepository> 
     @Override
     public Product createProduct(CreateProductForm form) {
         Product product = form.toEntity();
-        product.setCategory(categoryService.getCategoryById(form.getCateId()));
+        product.setCategory(categoryService.getCategoryById(form.getCategoryId()));
         repository.save(product);
         product.setProductImages(productImageService.createProductImages(form.getProductImages() , product));
         return product;
     }
 
     @Override
-    public boolean updateProduct(Integer id , UpdateProductForm form) {
-        if(!repository.existsProductByTitle(form.getTitle())) {
+    public void updateProduct(Integer id , UpdateProductForm form) {
+
             Product product = form.toEntity();
             product.setId(id);
-            product.setCategory(categoryService.getCategoryById(form.getCateId()));
+            product.setCategory(categoryService.getCategoryById(form.getCategoryId()));
             product.setCreatedDate(repository.findProductById(id).getCreatedDate());
             repository.save(product);
             product.setProductImages(productImageService.createProductImages(form.getProductImages(), product));
-            return true;
-        }
-        return false;
+
     }
 
     @Override
@@ -92,6 +90,11 @@ public class ProductService extends BasePagination<Product, IProductRepository> 
         repository.save(product);
 
 
+    }
+
+    @Override
+    public boolean existsProductByTitle(String title) {
+        return repository.existsProductByTitle(title);
     }
 
 

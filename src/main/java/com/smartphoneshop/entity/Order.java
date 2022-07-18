@@ -15,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name = "orders")
 public class Order implements Serializable {
+
     @Column(name = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,8 +26,11 @@ public class Order implements Serializable {
     @JoinColumn(name = "user_Id",nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "product")
-    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+
+    @Column(name = "amount")
+    private Integer amount;
+
+    @OneToMany(mappedBy = "order")
     private List<OrderItem> orderItems;
 
 

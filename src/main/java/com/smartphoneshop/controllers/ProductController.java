@@ -2,32 +2,23 @@ package com.smartphoneshop.controllers;
 
 import com.smartphoneshop.base.BaseController;
 import com.smartphoneshop.constants.Common;
-import com.smartphoneshop.constants.StatusCodeProductEnum;
 import com.smartphoneshop.dto.pagination.PaginateDTO;
 import com.smartphoneshop.entity.Product;
 import com.smartphoneshop.exceptions.NotFoundException;
 import com.smartphoneshop.filters.ProductFilter;
 import com.smartphoneshop.forms.CreateProductForm;
 import com.smartphoneshop.forms.UpdateProductForm;
-import com.smartphoneshop.services.ICategoryService;
-import com.smartphoneshop.services.IProductImageService;
 import com.smartphoneshop.services.IProductService;
 import com.smartphoneshop.specifications.GenericSpecification;
 import com.smartphoneshop.specifications.SearchCriteria;
 import com.smartphoneshop.specifications.SearchOperation;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.List;
 
 
 @RestController
@@ -79,9 +70,8 @@ public class ProductController extends BaseController<Product> {
     @PutMapping(value = "/{id}")
     @PreAuthorize("@userAuthorizer.isAdmin(authentication)")
     public ResponseEntity<?> updateProduct(@PathVariable("id") Integer id , @RequestBody UpdateProductForm form){
-        if(service.updateProduct(id,form))
-            return new ResponseEntity<>("updated Successful",HttpStatus.OK);
-        return new ResponseEntity<>("Something wrent wrong",HttpStatus.BAD_REQUEST);
+        service.updateProduct(id,form);
+        return new ResponseEntity<>("updated Successful",HttpStatus.OK);
     }
 
 
