@@ -3,6 +3,7 @@ package com.smartphoneshop.exceptions;
 import java.nio.file.AccessDeniedException;
 import java.util.List;
 
+import org.hibernate.exception.DataException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
@@ -53,4 +54,5 @@ public class CustomExceptionHandler {
 	public ErrorResponse handleException(Exception ex, WebRequest req) {
 		return new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage());
 	}
+
 }

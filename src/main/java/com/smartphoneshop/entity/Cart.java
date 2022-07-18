@@ -22,7 +22,11 @@ public class Cart implements Serializable {
     @JsonIgnore
     private User user;
 
-    @OneToMany(mappedBy = "cart",fetch = FetchType.EAGER)
+    @Column(name = "amount")
+    private Integer amount;
+
+
+    @OneToMany(mappedBy = "cart")
     private List<CartItem> cartItemList;
 
 

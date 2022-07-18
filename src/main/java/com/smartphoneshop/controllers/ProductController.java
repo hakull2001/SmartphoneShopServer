@@ -4,25 +4,32 @@ import com.smartphoneshop.base.BaseController;
 import com.smartphoneshop.constants.StatusCodeProductEnum;
 import com.smartphoneshop.dto.pagination.PaginateDTO;
 import com.smartphoneshop.entity.Product;
+import com.smartphoneshop.entity.User;
 import com.smartphoneshop.filters.ProductFilter;
 import com.smartphoneshop.forms.CreateProductForm;
 import com.smartphoneshop.forms.UpdateProductForm;
 import com.smartphoneshop.services.ICategoryService;
 import com.smartphoneshop.services.IProductImageService;
 import com.smartphoneshop.services.IProductService;
+import com.smartphoneshop.specifications.FilterSearch;
 import com.smartphoneshop.specifications.GenericSpecification;
 import com.smartphoneshop.specifications.SearchCriteria;
 import com.smartphoneshop.specifications.SearchOperation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,15 +37,15 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/api/v1/products")
 @CrossOrigin("*")
-public class ProductController extends BaseController<Product> {
+@Validated
+public class    ProductController extends BaseController<Product> {
 
     @Autowired
     private IProductService service;
 
 
-
-//    @Autowired
-//    private ModelMapper modelMapper;
+    @Autowired
+    private ModelMapper modelMapper;
 
     @GetMapping
     public ResponseEntity<?> getAllProducts(ProductFilter productFilter, HttpServletRequest request){
@@ -56,6 +63,7 @@ public class ProductController extends BaseController<Product> {
     }
 
 
+
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> getProductById(@PathVariable("id") Integer id){
         Product product  = service.getProductById(id);
@@ -69,15 +77,14 @@ public class ProductController extends BaseController<Product> {
     }
 
     @PostMapping
-    public ResponseEntity<?> createProduct(@RequestBody CreateProductForm form){
+    public ResponseEntity<?> createProduct(@RequestBody @Valid CreateProductForm form){
         return new ResponseEntity<>(service.createProduct(form),HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<?> updateProduct(@PathVariable("id") Integer id , @RequestBody UpdateProductForm form){
-        if(service.updateProduct(id,form))
-            return new ResponseEntity<>("updated Successful",HttpStatus.OK);
-        return new ResponseEntity<>("Something wrent wrong",HttpStatus.BAD_REQUEST);
+    public ResponseEntity<?> updateProduct(@PathVariable("id") Integer id , @RequestBody @Valid UpdateProductForm form){
+        service.updateProduct(id,form);
+        return new ResponseEntity<>("updated Successful",HttpStatus.OK);
     }
 
 

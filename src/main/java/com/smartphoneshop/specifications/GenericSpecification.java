@@ -19,6 +19,7 @@ public class GenericSpecification<T> implements Specification<T> {
     private JoinCriteria joinCriteria;
     private Sort sort = Sort.by("id").ascending();
 
+
     public GenericSpecification() {
         this.listSearchCriteria = new ArrayList<>();
         this.joinCriteria = null;
@@ -81,7 +82,7 @@ public class GenericSpecification<T> implements Specification<T> {
         return specification;
     }
 
-    private Predicate buildJoinPredicate(SearchOperation searchOperation, String key, Object value,
+        private Predicate buildJoinPredicate(SearchOperation searchOperation, String key, Object value,
                                          CriteriaBuilder builder, Join<Object, Object> join) {
         if (searchOperation.equals(SearchOperation.GREATER_THAN)) {
             return builder.greaterThan(join.get(key), value.toString());

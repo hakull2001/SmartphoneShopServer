@@ -41,8 +41,6 @@ public class OrderItemService implements IOrderItemService {
             orderItem.setStatus(StatusOrderItem.Processed);
         }else if(orderItem.getStatus() == StatusOrderItem.Processed && status == StatusOrderItem.Delivering){
             orderItem.setStatus(StatusOrderItem.Delivering);
-        }else if(orderItem.getStatus() == StatusOrderItem.Delivering && status == StatusOrderItem.Complete){
-            orderItem.setStatus(StatusOrderItem.Complete);
             dateFormat.format(orderItem.getCreatedDate());
             Calendar c = Calendar.getInstance();
             c.setTime(orderItem.getCreatedDate());
@@ -50,6 +48,8 @@ public class OrderItemService implements IOrderItemService {
             Date currentDatePlusOne = c.getTime();
             dateFormat.format(currentDatePlusOne);
             orderItem.setReceivedDate(currentDatePlusOne);
+        }else if(orderItem.getStatus() == StatusOrderItem.Delivering && status == StatusOrderItem.Complete){
+            orderItem.setStatus(StatusOrderItem.Complete);
         }
         repository.save(orderItem);
     }
