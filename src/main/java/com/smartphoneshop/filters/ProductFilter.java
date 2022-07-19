@@ -11,4 +11,6 @@ public class ProductFilter {
     private Integer endId;
 
     private String search;
+
+    private Integer soldPrice;
 }

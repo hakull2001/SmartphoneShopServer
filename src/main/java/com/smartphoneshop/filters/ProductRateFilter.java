@@ -11,4 +11,6 @@ public class ProductRateFilter {
     private Integer perPage;
 
     private Integer productId;
+
+
 }

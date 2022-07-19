@@ -55,6 +55,8 @@ public class    ProductController extends BaseController<Product> {
             specification.add(new SearchCriteria("id", productFilter.getStartId(), SearchOperation.GREATER_THAN_EQUAL));
         if(productFilter.getEndId() != null)
             specification.add(new SearchCriteria("id", productFilter.getEndId(), SearchOperation.LESS_THAN_EQUAL));
+        if(productFilter.getSoldPrice() != null)
+            specification.add(new SearchCriteria("originalPrice", productFilter.getSoldPrice(), SearchOperation.GREATER_THAN_EQUAL));
         if(productFilter.getSearch() != null)
             specification.add(new SearchCriteria("title", productFilter.getSearch(), SearchOperation.LIKE));
 

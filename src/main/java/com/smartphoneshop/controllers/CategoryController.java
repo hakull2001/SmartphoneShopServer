@@ -33,7 +33,6 @@ public class CategoryController extends BaseController<Category> {
                                      HttpServletRequest request){
         GenericSpecification<Category> specification = new GenericSpecification<Category>().getBasicQuery(request);
         PaginateDTO<Category> paginateCategories = categoryService.getList(page, perPage, specification);
-
         return this.resPagination(paginateCategories);
     }
 
