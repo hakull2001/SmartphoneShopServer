@@ -17,7 +17,7 @@ public class CreateProductForm {
     private int originalPrice;
     private int promotionPrice;
     private short amount;
-    private Integer cateId;
+    private Integer categoryId;
     private List<CreateProductImageForm> productImages;
 
     public Product toEntity(){

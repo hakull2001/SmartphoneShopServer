@@ -49,7 +49,7 @@ public class ProductService implements IProductService {
     @Override
     public Product createProduct(CreateProductForm form) {
         Product product = form.toEntity();
-        product.setCategory(categoryService.getCategoryById(form.getCateId()));
+        product.setCategory(categoryService.getCategoryById(form.getCategoryId()));
         repository.save(product);
         product.setProductImages(productImageService.createProductImages(form.getProductImages() , product));
         return product;
@@ -83,7 +83,6 @@ public class ProductService implements IProductService {
         if(product.getStatus() == StatusCodeProductEnum.OPENING)
             product.setStatus(StatusCodeProductEnum.CLOSED);
         repository.save(product);
-
 
     }
 
