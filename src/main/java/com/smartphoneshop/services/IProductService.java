@@ -9,11 +9,13 @@ import com.smartphoneshop.specifications.FilterSearch;
 import com.smartphoneshop.specifications.GenericSpecification;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 public interface IProductService{
+
 
     public PaginateDTO<Product> getAllProducts(Integer page, Integer perPage, GenericSpecification<Product> specification);
 
@@ -24,6 +26,8 @@ public interface IProductService{
     Product createProduct(CreateProductForm form);
 
     void updateProduct(Integer id, UpdateProductForm form);
+
+    void updateProductAmount(Product product , Integer amount);
 
     void unLockProductStatus(Integer id);
 

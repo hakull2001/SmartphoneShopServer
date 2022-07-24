@@ -1,6 +1,8 @@
 package com.smartphoneshop.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ public class ProductRate implements Serializable {
     private Integer id;
 
     @ManyToOne
+    @JsonManagedReference
     @JoinColumn(name = "user_Id",nullable = false)
     private User user;
 

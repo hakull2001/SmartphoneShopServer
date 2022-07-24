@@ -1,8 +1,6 @@
 package com.smartphoneshop.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.smartphoneshop.constants.StatusCodeProductEnum;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,10 +30,10 @@ public class Product implements Serializable {
     private String descriptions;
 
     @Column(name = "originalPrice",nullable = false)
-    private int originalPrice;
+    private Integer originalPrice;
 
     @Column(name = "promotionPrice",nullable = false)
-    private int promotionPrice;
+    private Integer promotionPrice;
 
     @Column(name = "`created_Date`")
     @Temporal(TemporalType.TIMESTAMP)
@@ -43,12 +41,12 @@ public class Product implements Serializable {
     private Date createdDate;
 
     @Column(name = "amount",nullable = false)
-    private short amount;
+    private Integer amount;
 
     @Column(name = "`status`" , columnDefinition = "1")
     private StatusCodeProductEnum status;
 
-    public Product(String title, String descriptions, int originalPrice, int promotionPrice, short amount) {
+    public Product(String title, String descriptions, int originalPrice, int promotionPrice, Integer amount) {
         this.title = title;
         this.descriptions = descriptions;
         this.originalPrice = originalPrice;
@@ -83,5 +81,8 @@ public class Product implements Serializable {
     public void PrePersist(){
         if(this.status == null)
             this.status = StatusCodeProductEnum.OPENING;
+        if(this.promotionPrice == null)
+            this.promotionPrice = originalPrice;
     }
+
 }

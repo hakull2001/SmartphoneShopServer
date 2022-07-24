@@ -28,6 +28,7 @@ public class CartService implements ICartService {
     @Autowired
     private IOrderService orderService;
 
+
     @Override
     public Cart getCartByUserId(Integer id) {
 
@@ -62,13 +63,11 @@ public class CartService implements ICartService {
         CartItem cartItem = cartItemService.getCartItemById(cartItemId);
         OrderItem orderItem = new OrderItem(cartItem.getAmount() ,cart.getUser().getOrder() , cartItem.getProduct());
         orderItemService.createOrderItems(orderItem);
-        cartItemService.deleteById(cartItemId);
+        cartItemService.deleteById(cartItemId , userId);
 
         updateCartAmount(cart.getCartItemList().size() , cart);
         orderService.updateOrderAmount(order.getOrderItems().size(), order);
-
-
-
+        productService.updateProductAmount(cartItem.getProduct() , cartItem.getProduct().getAmount() - cartItem.getAmount());
     }
 
     @Override
@@ -77,14 +76,14 @@ public class CartService implements ICartService {
         Order order = orderService.getOrderByUserId(userId);
         List<Integer> listId = new ArrayList<>();
         for (CartItem item: cart.getCartItemList()) {
+            productService.updateProductAmount(item.getProduct() , item.getProduct().getAmount() - item.getAmount());
             OrderItem orderItem = new OrderItem(item.getAmount() , order , item.getProduct());
             orderItemService.createOrderItems(orderItem);
             listId.add(item.getId());
         }
-        orderService.updateOrderAmount(order.getOrderItems().size() , order);
-        this.updateCartAmount(0, cart);
-        cartItemService.deleteByIdIn(listId);
-
+        cartItemService.deleteByIdIn(listId , userId);
+        updateCartAmount(cart.getCartItemList().size() , cart);
+        orderService.updateOrderAmount(order.getOrderItems().size(), order);
 
     }
 

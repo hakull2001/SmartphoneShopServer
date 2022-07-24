@@ -27,6 +27,7 @@ public class CategoryController extends BaseController<Category> {
     private ICategoryService categoryService;
 
 
+
     @GetMapping
     public ResponseEntity<?> getList(@RequestParam(name = "page",required = false) Integer page,
                                      @RequestParam(name = "perPage", required = false) Integer perPage,
@@ -45,13 +46,6 @@ public class CategoryController extends BaseController<Category> {
         return this.resSuccess(category);
     }
 
-    @PostMapping
-    @PreAuthorize("@userAuthorizer.isAdmin(authentication)")
-    public ResponseEntity<?> create(@RequestBody @Valid CreateCategoryDTO categoryDTO) throws Exception {
-        categoryService.create(categoryDTO);
-        return new ResponseEntity<>(Common.MSG_CREATED_SUCCESSFUL_201, HttpStatus.CREATED);
-    }
-
     @PatchMapping("/{categoryId}")
     @PreAuthorize("@userAuthorizer.isAdmin(authentication)")
     public ResponseEntity<?> update(@RequestBody @Valid UpdateCategoryDTO categoryDTO,
@@ -59,10 +53,17 @@ public class CategoryController extends BaseController<Category> {
         Category category = categoryService.getCategoryById(categoryId);
 
         if(category == null)
-            throw new Exception(Common.MSG_NOT_FOUND);
-        Category updateCategory = categoryService.update(categoryDTO, category);
-        return this.resSuccess(updateCategory);
+            throw new NotFoundException(Common.MSG_NOT_FOUND);
+        return this.resSuccess(category);
     }
+
+    @PostMapping
+    @PreAuthorize("@userAuthorizer.isAdmin(authentication)")
+    public ResponseEntity<?> create(@RequestBody @Valid CreateCategoryDTO categoryDTO) throws Exception {
+        categoryService.create(categoryDTO);
+        return new ResponseEntity<>(Common.MSG_CREATED_SUCCESSFUL_201, HttpStatus.CREATED);
+    }
+
 
     @DeleteMapping("/{categoryId}")
     @PreAuthorize("@userAuthorizer.isAdmin(authentication)")
@@ -70,4 +71,6 @@ public class CategoryController extends BaseController<Category> {
         categoryService.deleteById(categoryId);
         return new ResponseEntity<>(Common.MSG_DELETE_SUCCESS, HttpStatus.OK);
     }
+
+
 }

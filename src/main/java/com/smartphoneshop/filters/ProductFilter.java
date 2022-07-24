@@ -12,8 +12,6 @@ public class ProductFilter {
 
     private String search;
 
-    private Integer soldPrice;
-
     private Integer page;
 
     private Integer perPage;

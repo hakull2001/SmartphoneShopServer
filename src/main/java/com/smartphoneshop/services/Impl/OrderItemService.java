@@ -30,6 +30,16 @@ public class OrderItemService implements IOrderItemService {
     }
 
     @Override
+    public Integer getMonthlyRevenue(int month) {
+        List<OrderItem> orderItems = repository.findOrderItemsByReceivedDateAndStatus(month);
+        Integer revenue = 0;
+        for (OrderItem item:orderItems) {
+            revenue += item.getProduct().getPromotionPrice() * item.getAmount();
+        }
+        return revenue;
+    }
+
+    @Override
     public void createOrderItems(OrderItem orderItem) {
         repository.save(orderItem);
     }

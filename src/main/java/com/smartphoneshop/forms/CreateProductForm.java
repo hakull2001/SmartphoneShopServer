@@ -32,11 +32,12 @@ public class CreateProductForm {
     private int promotionPrice;
 
     @Min(value = 0 , message = "Giá gốc phải hơn  0")
-    private short amount;
+    private Integer amount;
 
     @NotNull
     private Integer categoryId;
 
+    private List<CreateProductImageForm> productImages;
 
     public Product toEntity(){
         Product p = new Product(
@@ -47,7 +48,4 @@ public class CreateProductForm {
                 amount);
         return p;
     }
-
-
-
 }

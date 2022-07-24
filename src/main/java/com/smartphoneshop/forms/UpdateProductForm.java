@@ -30,7 +30,7 @@ public class UpdateProductForm {
     private int promotionPrice;
 
     @Min(value = 0 , message = "Giá gốc phải hơn  0")
-    private short amount;
+    private Integer amount;
 
     @NotNull
     private Integer categoryId;

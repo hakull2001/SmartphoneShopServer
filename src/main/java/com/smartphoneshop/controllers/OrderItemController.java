@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
+
 @RestController
 @RequestMapping(value = "/api/v1/orderitems")
 @CrossOrigin("*")
@@ -22,6 +24,12 @@ public class OrderItemController {
     public ResponseEntity<?> getOrderItemsByStatus(@Param("status") StatusOrderItem status){
         return new ResponseEntity<>(service.getAllOrderItemsByStatus(status) , HttpStatus.OK);
     }
+
+    @GetMapping(value = "/revenue")
+    public ResponseEntity<?> getMonthlyRevenue(@Param("month") int month){
+        return new ResponseEntity<>(service.getMonthlyRevenue(month) , HttpStatus.OK);
+    }
+
 
     @PutMapping
     public ResponseEntity<?> updateOrderItemStatus(@Param("id") Integer id , @Param("status") StatusOrderItem status){

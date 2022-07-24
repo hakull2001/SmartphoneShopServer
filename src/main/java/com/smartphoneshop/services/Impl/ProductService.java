@@ -73,6 +73,13 @@ public class ProductService extends BasePagination<Product, IProductRepository> 
     }
 
     @Override
+    public void updateProductAmount(Product product, Integer amount) {
+        product.setAmount(amount);
+        repository.save(product);
+    }
+
+
+    @Override
     public void unLockProductStatus(Integer id) {
         Product product = repository.findProductById(id);
         if(product.getStatus() == StatusCodeProductEnum.CLOSED)

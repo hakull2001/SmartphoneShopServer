@@ -27,6 +27,7 @@ public class ProductImage implements Serializable {
     @Column(name = "image_Url",nullable = false)
     private String imageUrl;
 
+
     @Column(name = "imagePublicId" , length = 500)
     private String imagePublicId;
 
@@ -45,7 +46,6 @@ public class ProductImage implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp //Deafault now
     private Date updatedAt;
-
 
     public ProductImage(String imageUrl) {
         this.imageUrl = imageUrl;
