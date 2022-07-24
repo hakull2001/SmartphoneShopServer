@@ -1,6 +1,9 @@
 package com.smartphoneshop.constants;
 
 public class Common {
+    public static final String MSG_INITIALIZE_STORAGE = "Could not initialize storage";
+    public static final String PRODUCT_IMAGE_UPLOAD_PATH = "/product-images";
+    public static final String PRODUCT_IMAGE_PATTERN_PATH = "/images/product-images";
     public static final String MSG_SUCCESS = "Thành công";
     public static final String MSG_DELETE_SUCCESS = "Xóa thành công";
     public static final String MSG_CREATED_SUCCESSFUL_201 = "Tạo mới thành công";
@@ -27,4 +30,11 @@ public class Common {
     public static final String MSG_NEW_PASSWORD = "Mật khẩu mới của bạn là: \n";
 
     public static final String MSG_REQUEST_FORGOT_PASSWORD = "Vui lòng kiểm tra email của bạn để lấy mật khẩu mới";
+
+    public static final String MSG_BUY_CART_SUCCESS = "Mua thành công mặt hàng trong giỏ";
+
+    public static final String MSG_BUY_ALL_CART_ITEMS_SUCCESS = "Mua thành công tất cả các mặt hàng trong giỏ";
+
+    public static final String MSG_UPDATED_AMOUNT_SUCCESS = "Cập nhật số lượng thành công";
+
 }

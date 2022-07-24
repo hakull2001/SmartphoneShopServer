@@ -37,7 +37,6 @@ public class CreateProductForm {
     @NotNull
     private Integer categoryId;
 
-    private List<CreateProductImageForm> productImages;
 
     public Product toEntity(){
         Product p = new Product(
@@ -48,4 +47,7 @@ public class CreateProductForm {
                 amount);
         return p;
     }
+
+
+
 }
