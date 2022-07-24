@@ -51,9 +51,9 @@ public class User implements Serializable {
     @JsonIgnore
     private Cart cart;
 
-//    @OneToOne(mappedBy = "user")
-//    @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-//    private  Order  order;
+    @OneToOne(mappedBy = "user")
+    @JsonIgnore
+    private  Order order;
 
     @PrePersist
     public void prePersist() {

@@ -1,15 +1,19 @@
 package com.smartphoneshop.services;
 
 import com.smartphoneshop.entity.Cart;
-import com.smartphoneshop.entity.CartItem;
-import com.smartphoneshop.entity.Product;
-import com.smartphoneshop.filter.AddCartParams;
+import com.smartphoneshop.filters.AddCartParams;
 
 public interface ICartService {
-
     Cart getCartByUserId(Integer id);
 
     void addCartItemToCart(AddCartParams params);
+
+    void buyCartItem(Integer userId , Integer cartItemId);
+
+    void buyListCartItems(Integer userId);
+
+
+    Cart updateCartAmount(Integer amount , Cart cart);
 
 
 

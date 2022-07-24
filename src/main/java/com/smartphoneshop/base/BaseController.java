@@ -1,5 +1,6 @@
 package com.smartphoneshop.base;
 
+import com.smartphoneshop.constants.Common;
 import com.smartphoneshop.dto.ResponseDTO;
 import com.smartphoneshop.dto.pagination.PaginateDTO;
 import com.smartphoneshop.dto.pagination.PaginationDTO;
@@ -17,19 +18,24 @@ public class BaseController<T>{
     public ResponseEntity<?> resSuccess(T data) {
         Map<String, T> map = new HashMap<>();
         map.put("data", data);
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseDTO<>(HttpStatus.OK.value(), "Success", map));
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseDTO<>(HttpStatus.OK.value(), Common.MSG_SUCCESS, map));
     }
 
+    public ResponseEntity<?> createdSuccess(T data){
+        Map<String, T> map = new HashMap<>();
+        map.put("data", data);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDTO<>(HttpStatus.CREATED.value(), Common.MSG_CREATED_SUCCESSFUL_201, map));
+    }
     public ResponseEntity<?> resListSuccess(List<?> data) {
         Map<String, List<?>> map = new HashMap<>();
         map.put("data", data);
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseDTO<>(HttpStatus.OK.value(), "Success", map));
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseDTO<>(HttpStatus.OK.value(), Common.MSG_SUCCESS, map));
     }
 
     public ResponseEntity<?> resPagination(PaginateDTO<?> paginateDTO) {
         PaginationDTO<List<?>> paginationDTO = new PaginationDTO<>(paginateDTO.getPageData().getContent(),
                 paginateDTO.getPagination());
         return ResponseEntity.status(HttpStatus.OK)
-                .body(new PaginationResponseDTO<>(HttpStatus.OK.value(), "Success", paginationDTO));
+                .body(new PaginationResponseDTO<>(HttpStatus.OK.value(), Common.MSG_SUCCESS, paginationDTO));
     }
 }

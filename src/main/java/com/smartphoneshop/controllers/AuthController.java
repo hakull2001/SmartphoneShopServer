@@ -1,10 +1,12 @@
 package com.smartphoneshop.controllers;
 
 import com.aventrix.jnanoid.jnanoid.NanoIdUtils;
+import com.smartphoneshop.constants.Common;
 import com.smartphoneshop.dto.SignUpDTO;
 import com.smartphoneshop.dto.UserResetPasswordDTO;
 import com.smartphoneshop.entity.ResetPasswordUserToken;
 import com.smartphoneshop.entity.User;
+import com.smartphoneshop.exceptions.AppException;
 import com.smartphoneshop.models.AuthenticationRequest;
 import com.smartphoneshop.models.AuthenticationResponse;
 import com.smartphoneshop.services.IEmailService;
@@ -23,6 +25,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 
@@ -55,10 +58,10 @@ public class AuthController {
 
 
     @PostMapping("/signup")
-    public ResponseEntity<?> signUp(@RequestBody @Valid SignUpDTO signUpDTO) throws Exception {
+    public ResponseEntity<?> signUp(@RequestBody @Valid SignUpDTO signUpDTO) throws MessagingException {
         User oldUser = userService.findByUsername(signUpDTO.getUsername());
         if (oldUser != null) {
-            throw new Exception("Username has already exists");
+            throw new AppException(Common.MSG_USERNAME_EXISTS);
         }
         User user = userService.create(signUpDTO);
 
@@ -66,17 +69,17 @@ public class AuthController {
         final String jwt = jwtUtil.generateToken(userDetails);
 
         registrationUserTokenService.createNewRegistrationUserToken(user, jwt);
-        mailService.send("Register user", "localhost:8080/api/v1/auth/active/" + jwt, user.getEmail(), true);
-        return new ResponseEntity<>("Please check your email to active user !", HttpStatus.CREATED);
+        mailService.send(Common.MSG_SUBJECT_MAIL, Common.MSG_CONTENT+ jwt, user.getEmail(), true);
+        return new ResponseEntity<>(Common.MSG_SIGNUP_SUCCESS, HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
+    public ResponseEntity<?> login(@RequestBody AuthenticationRequest authenticationRequest){
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                     authenticationRequest.getUsername(), authenticationRequest.getPassword()));
         } catch (BadCredentialsException e) {
-            throw new Exception("Incorrect username or password");
+            throw new AppException(Common.MSG_INCORRECT_USERNAME);
         }
         final UserDetails userDetails = myUserDetailsService.loadUserByUsername(authenticationRequest.getUsername());
         final String jwt = jwtUtil.generateToken(userDetails);
@@ -88,7 +91,7 @@ public class AuthController {
     @GetMapping("/active/{token}")
     public ResponseEntity<?> activeUser(@PathVariable(value = "token") String token){
         userService.activeUser(token);
-        return new ResponseEntity<>("Active user successful, please login !", HttpStatus.OK);
+        return new ResponseEntity<>(Common.MSG_ACTIVE_SUCCESS, HttpStatus.OK);
     }
 
     @PostMapping("/reset-password")
@@ -96,7 +99,7 @@ public class AuthController {
         User user = userService.findByEmail(userResetPasswordDTO.getEmail());
 
         if(user == null)
-            throw new Exception("Not found user");
+            throw new AppException(Common.MSG_NOT_FOUND);
 
         String newPassword = NanoIdUtils.randomNanoId(NanoIdUtils.DEFAULT_NUMBER_GENERATOR,
                 NanoIdUtils.DEFAULT_ALPHABET, 15);
@@ -106,12 +109,12 @@ public class AuthController {
         ResetPasswordUserToken resetPasswordToken = new ResetPasswordUserToken(user, jwt);
         resetPasswordUserTokenService.createResetPasswordUserToken(resetPasswordToken);
 
-        mailService.send("Co cai mat khau cung quen :)))", "Mat khau moi ne, quen nua thi chiu: " + newPassword, user.getEmail(), true);
+        mailService.send(Common.MSG_FORGOT_PASSWORD_SUBJECT, Common.MSG_NEW_PASSWORD+ newPassword, user.getEmail(), true);
         user.setPassword(passwordEncoder.encode(newPassword));
         userService.updateUser(user);
 
         resetPasswordUserTokenService.deleteById(resetPasswordToken.getId());
-        return new ResponseEntity<>("Bạn quên mật khẩu chứng tỏ trí nhớ của bạn không tốt, vào gmail để lấy lại mk", HttpStatus.OK);
+        return new ResponseEntity<>(Common.MSG_REQUEST_FORGOT_PASSWORD, HttpStatus.OK);
     }
 
 }

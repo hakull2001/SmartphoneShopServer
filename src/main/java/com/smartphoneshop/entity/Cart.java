@@ -1,6 +1,7 @@
 package com.smartphoneshop.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.smartphoneshop.constants.StatusCodeProductEnum;
 import lombok.Data;
 import org.hibernate.annotations.Cascade;
 
@@ -22,8 +23,17 @@ public class Cart implements Serializable {
     @JsonIgnore
     private User user;
 
-    @OneToMany(mappedBy = "cart",fetch = FetchType.EAGER)
+    @Column(name = "amount")
+    private Integer amount;
+
+
+    @OneToMany(mappedBy = "cart")
     private List<CartItem> cartItemList;
 
+
+    @PrePersist
+    public void PrePersist(){
+        this.amount = this.cartItemList.size();
+    }
 
 }

@@ -1,25 +1,17 @@
 package com.smartphoneshop.services;
 
+import com.smartphoneshop.dto.create.CreateCategoryDTO;
+import com.smartphoneshop.dto.pagination.PaginateDTO;
+import com.smartphoneshop.dto.update.UpdateCategoryDTO;
 import com.smartphoneshop.entity.Category;
-import com.smartphoneshop.forms.CreateCategoryForm;
-import com.smartphoneshop.forms.UpdateCategoryForm;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-
-import java.util.List;
+import com.smartphoneshop.specifications.GenericSpecification;
 
 public interface ICategoryService {
-
+    PaginateDTO<Category> getList(Integer page, Integer perPage, GenericSpecification<Category> specification);
     Category getCategoryById(Integer id);
-    Page<Category> getAllCategory(Pageable pageable);
+    Category create(CreateCategoryDTO categoryDTO) throws Exception;
 
-    Category getCategoryByName(String name);
+    Category update(UpdateCategoryDTO categoryDTO, Category currentCategory) throws Exception;
 
-    Category createCategory(CreateCategoryForm form) throws Exception;
-
-    boolean UpdateCategory(Integer id, UpdateCategoryForm form);
-
-    void unLockCategoryStatus(Integer id) throws Exception;
-
-    void lockCategory(Integer id) throws Exception;
+    void deleteById(Integer categoryId) throws Exception;
 }

@@ -1,85 +1,74 @@
 package com.smartphoneshop.controllers;
 
-import com.smartphoneshop.constants.StatusCodeEnum;
+import com.smartphoneshop.base.BaseController;
+import com.smartphoneshop.constants.Common;
+import com.smartphoneshop.dto.create.CreateCategoryDTO;
+import com.smartphoneshop.dto.pagination.PaginateDTO;
+import com.smartphoneshop.dto.update.UpdateCategoryDTO;
 import com.smartphoneshop.entity.Category;
-import com.smartphoneshop.forms.CreateCategoryForm;
-import com.smartphoneshop.forms.UpdateCategoryForm;
+import com.smartphoneshop.exceptions.NotFoundException;
 import com.smartphoneshop.services.ICategoryService;
+import com.smartphoneshop.specifications.GenericSpecification;
+import org.hibernate.sql.Update;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("api/v1/categories")
 @CrossOrigin("*")
-public class CategoryController {
+public class CategoryController extends BaseController<Category> {
     @Autowired
-    private ICategoryService iCategoryService;
+    private ICategoryService categoryService;
+
 
     @GetMapping
-    public ResponseEntity<?> getAllCategories(Pageable pageable){
-        Page<Category> categories = iCategoryService.getAllCategory(pageable);
-        List<Category> categories1= new ArrayList<>();
-        for (Category categorie:categories) {
-            if(categorie.getStatus()== StatusCodeEnum.ACTIVE)
-                categories1.add(categorie);
-        }
-        Page<Category> cate = new PageImpl<>(categories1,pageable,categories.getTotalElements());
-        return  new ResponseEntity<>(cate,HttpStatus.OK);
+    public ResponseEntity<?> getList(@RequestParam(name = "page",required = false) Integer page,
+                                     @RequestParam(name = "perPage", required = false) Integer perPage,
+                                     HttpServletRequest request){
+        GenericSpecification<Category> specification = new GenericSpecification<Category>().getBasicQuery(request);
+        PaginateDTO<Category> paginateCategories = categoryService.getList(page, perPage, specification);
+
+        return this.resPagination(paginateCategories);
     }
 
     @GetMapping("/{categoryId}")
-    public ResponseEntity<?> getCategoryById(@PathVariable(value = "categoryId") Integer categoryId) throws Exception {
-        Category category = iCategoryService.getCategoryById(categoryId);
-        if(category==null)
-            throw new Exception("Not found category");
-        return new ResponseEntity<>(category,HttpStatus.OK);
-    }
-
-    @GetMapping("/name/{name}")
-    public  ResponseEntity<?> getCategoryByName(@PathVariable("name") String name) throws Exception {
-        Category category = iCategoryService.getCategoryByName(name);
-        if(category==null)
-            throw new Exception("Not found category you find");
-        return new ResponseEntity<>(category,HttpStatus.OK);
+    public ResponseEntity<?> getById(@PathVariable(name = "categoryId") Integer categoryId,
+                                     HttpServletRequest request) {
+        Category category = categoryService.getCategoryById(categoryId);
+        if(category == null)
+            throw new NotFoundException(Common.MSG_NOT_FOUND);
+        return this.resSuccess(category);
     }
 
     @PostMapping
-    public ResponseEntity<?> createNewCategory(@RequestBody CreateCategoryForm form, Category category) throws Exception {
-        return new ResponseEntity<>(iCategoryService.createCategory(form),HttpStatus.CREATED);
+    @PreAuthorize("@userAuthorizer.isAdmin(authentication)")
+    public ResponseEntity<?> create(@RequestBody @Valid CreateCategoryDTO categoryDTO) throws Exception {
+        categoryService.create(categoryDTO);
+        return new ResponseEntity<>(Common.MSG_CREATED_SUCCESSFUL_201, HttpStatus.CREATED);
     }
 
-    @PutMapping(value = "/{id}")
-    public ResponseEntity<?> updateCategory(@PathVariable("id") Integer id, @RequestBody UpdateCategoryForm form){
-        if(iCategoryService.UpdateCategory(id,form))
-            return new ResponseEntity<>("Update successfuly!",HttpStatus.OK);
-        return  new ResponseEntity<>("ERROR UPDATE CHECK AGAIN INFO ",HttpStatus.BAD_REQUEST);
-    }
-    @PutMapping(value = "unlock/{id}")
-    public ResponseEntity<?> unLockCategory(@PathVariable("id") Integer id) throws Exception {
-        if(unLockCategory(id)!=null)
-        {
-            iCategoryService.unLockCategoryStatus((id));
-            return new ResponseEntity<>("Unlock Category Successful",HttpStatus.OK);
-        }
-        throw new Exception("NOT FOUND CATEGORY UNLOCK");
+    @PatchMapping("/{categoryId}")
+    @PreAuthorize("@userAuthorizer.isAdmin(authentication)")
+    public ResponseEntity<?> update(@RequestBody @Valid UpdateCategoryDTO categoryDTO,
+                                    @PathVariable(name = "categoryId") Integer categoryId) throws Exception {
+        Category category = categoryService.getCategoryById(categoryId);
+
+        if(category == null)
+            throw new Exception(Common.MSG_NOT_FOUND);
+        Category updateCategory = categoryService.update(categoryDTO, category);
+        return this.resSuccess(updateCategory);
     }
 
-    @PutMapping(value = "lock/{id}")
-    public ResponseEntity<?> lockCategory(@PathVariable("id") Integer id) throws Exception {
-        if(lockCategory(id)!= null)
-        {
-            iCategoryService.lockCategory(id);
-            return new ResponseEntity<>("Lock successful",HttpStatus.OK);
-        }
-        throw new Exception("NOT FOUND CATEGORY LOCK");
+    @DeleteMapping("/{categoryId}")
+    @PreAuthorize("@userAuthorizer.isAdmin(authentication)")
+    public ResponseEntity<?> delete(@PathVariable(name = "categoryId") Integer categoryId) throws Exception {
+        categoryService.deleteById(categoryId);
+        return new ResponseEntity<>(Common.MSG_DELETE_SUCCESS, HttpStatus.OK);
     }
-
 }

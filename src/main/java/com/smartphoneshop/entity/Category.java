@@ -37,5 +37,4 @@ public class Category implements Serializable {
             this.status = StatusCodeEnum.ACTIVE;
     }
 
-
 }
