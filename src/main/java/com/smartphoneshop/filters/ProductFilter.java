@@ -15,4 +15,12 @@ public class ProductFilter {
     private Integer page;
 
     private Integer perPage;
+
+    private Integer mnOPrice;
+
+    private Integer mxOPrice;
+
+    private Integer mnRate;
+
+    private Integer mxRate;
 }

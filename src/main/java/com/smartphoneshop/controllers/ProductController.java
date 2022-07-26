@@ -40,6 +40,13 @@ public class ProductController extends BaseController<Product> {
         if(productFilter.getSearch() != null)
             specification.add(new SearchCriteria("title", productFilter.getSearch(), SearchOperation.LIKE));
 
+        if(productFilter.getMnOPrice() != null)
+            specification.add(new SearchCriteria("originalPrice", productFilter.getMnOPrice(), SearchOperation.GREATER_THAN_EQUAL));
+
+        if(productFilter.getMxOPrice() != null)
+            specification.add(new SearchCriteria("originalPrice", productFilter.getMxOPrice(), SearchOperation.LESS_THAN_EQUAL));
+
+
         PaginateDTO<Product> paginateProducts = service.getAllProducts(productFilter.getPage(), productFilter.getPerPage(), specification);
         return this.resPagination(paginateProducts);
     }
