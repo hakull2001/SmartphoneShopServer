@@ -40,6 +40,9 @@ public class Product implements Serializable {
     @CreationTimestamp
     private Date createdDate;
 
+    @Column
+    private Float avgRate;
+
     @Column(name = "amount",nullable = false)
     private short amount;
 
@@ -77,9 +80,4 @@ public class Product implements Serializable {
     @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     private List<OrderItem> orderItems;
 
-    @PrePersist
-    public void PrePersist(){
-        if(this.status == null)
-            this.status = StatusCodeProductEnum.OPENING;
-    }
 }

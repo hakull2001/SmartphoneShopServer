@@ -37,4 +37,13 @@ public class CreateProductForm {
     @NotNull
     private Integer categoryId;
 
+    public Product toEntity(){
+        Product p = new Product(
+                title,
+                descriptions,
+                originalPrice,
+                promotionPrice,
+                amount);
+        return p;
+    }
 }
