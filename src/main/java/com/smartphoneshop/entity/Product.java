@@ -40,6 +40,9 @@ public class Product implements Serializable {
     @CreationTimestamp
     private Date createdDate;
 
+//    @Column
+//    private Float avgRate;
+
     @Column(name = "amount",nullable = false)
     private Integer amount;
 
