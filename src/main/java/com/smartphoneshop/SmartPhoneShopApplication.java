@@ -11,7 +11,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-@Slf4j
+@Slf4j  
 @EnableConfigurationProperties({MailInfoProperties.class, StorageProperties.class, MailInfoProperties.class})
 public class SmartPhoneShopApplication {
 
