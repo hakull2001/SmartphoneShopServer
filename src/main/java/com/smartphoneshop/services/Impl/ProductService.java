@@ -40,6 +40,8 @@ public class ProductService extends BasePagination<Product, IProductRepository> 
 
     @Override
     public PaginateDTO<Product> getAllProducts(Integer page, Integer perPage, GenericSpecification<Product> specification) {
+
+
         return this.paginate(page, perPage, specification);
     }
 

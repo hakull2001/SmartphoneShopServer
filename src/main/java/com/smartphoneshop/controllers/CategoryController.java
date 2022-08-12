@@ -51,7 +51,7 @@ public class CategoryController extends BaseController<Category> {
     public ResponseEntity<?> update(@RequestBody @Valid UpdateCategoryDTO categoryDTO,
                                     @PathVariable(name = "categoryId") Integer categoryId) throws Exception {
         Category category = categoryService.getCategoryById(categoryId);
-
+        categoryService.update(categoryDTO , category);
         if(category == null)
             throw new NotFoundException(Common.MSG_NOT_FOUND);
         return this.resSuccess(category);
@@ -71,6 +71,21 @@ public class CategoryController extends BaseController<Category> {
         categoryService.deleteById(categoryId);
         return new ResponseEntity<>(Common.MSG_DELETE_SUCCESS, HttpStatus.OK);
     }
+
+    @PutMapping("/lockCategory/{categoryId}")
+//    @PreAuthorize("@userAuthorizer.isAdmin(authentication)")
+    public ResponseEntity<?> lockCategory(@PathVariable(name = "categoryId") Integer categoryId) throws Exception {
+        categoryService.lockCategory(categoryId);
+        return new ResponseEntity<>("lock this category success", HttpStatus.OK);
+    }
+
+    @PutMapping("/unLockCategory/{categoryId}")
+//    @PreAuthorize("@userAuthorizer.isAdmin(authentication)")
+    public ResponseEntity<?> unLockCategory(@PathVariable(name = "categoryId") Integer categoryId) throws Exception {
+        categoryService.unLockCategory(categoryId);
+        return new ResponseEntity<>("unlock this category success", HttpStatus.OK);
+    }
+
 
 
 }
