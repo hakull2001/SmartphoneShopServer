@@ -14,4 +14,8 @@ public interface ICategoryService {
     Category update(UpdateCategoryDTO categoryDTO, Category currentCategory) throws Exception;
 
     void deleteById(Integer categoryId) throws Exception;
+
+    void lockCategory(Integer id);
+
+    void unLockCategory(Integer id);
 }

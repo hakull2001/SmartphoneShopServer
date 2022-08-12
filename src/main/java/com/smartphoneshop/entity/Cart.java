@@ -1,6 +1,8 @@
 package com.smartphoneshop.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.smartphoneshop.constants.StatusCodeProductEnum;
 import lombok.Data;
 import org.hibernate.annotations.Cascade;
 
@@ -19,7 +21,7 @@ public class Cart implements Serializable {
 
     @OneToOne
     @JoinColumn(name = "user_Id",nullable = false)
-    @JsonIgnore
+    @JsonManagedReference
     private User user;
 
     @Column(name = "amount")
@@ -29,5 +31,10 @@ public class Cart implements Serializable {
     @OneToMany(mappedBy = "cart")
     private List<CartItem> cartItemList;
 
+
+    @PrePersist
+    public void PrePersist(){
+        this.amount = this.cartItemList.size();
+    }
 
 }

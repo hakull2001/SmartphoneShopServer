@@ -1,12 +1,15 @@
 package com.smartphoneshop.services.Impl;
 
 import com.smartphoneshop.base.BasePagination;
+import com.smartphoneshop.constants.StatusCodeEnum;
 import com.smartphoneshop.dto.create.CreateCategoryDTO;
 import com.smartphoneshop.dto.pagination.PaginateDTO;
 import com.smartphoneshop.dto.update.UpdateCategoryDTO;
 import com.smartphoneshop.entity.Category;
+import com.smartphoneshop.entity.Product;
 import com.smartphoneshop.repositories.ICategoryRepository;
 import com.smartphoneshop.services.ICategoryService;
+import com.smartphoneshop.services.IProductService;
 import com.smartphoneshop.specifications.GenericSpecification;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,9 @@ import org.springframework.stereotype.Service;
 public class CategoryService extends BasePagination<Category, ICategoryRepository> implements ICategoryService {
     @Autowired
     private ICategoryRepository repository;
+
+    @Autowired
+    private IProductService productService;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -60,5 +66,25 @@ public class CategoryService extends BasePagination<Category, ICategoryRepositor
         if(!category.getProducts().isEmpty())
             throw new Exception("Cannot delete category");
         repository.delete(category);
+    }
+
+    @Override
+    public void lockCategory(Integer id) {
+        Category category = repository.findCategoryById(id);
+        category.setStatus(StatusCodeEnum.NOT_ACTIVE);
+        for (Product product: category.getProducts()) {
+            productService.lockProductStatus(product.getId());
+        }
+        repository.save(category);
+    }
+
+    @Override
+    public void unLockCategory(Integer id) {
+        Category category = repository.findCategoryById(id);
+        category.setStatus(StatusCodeEnum.ACTIVE);
+        for (Product product: category.getProducts()) {
+            productService.unLockProductStatus(product.getId());
+        }
+        repository.save(category);
     }
 }

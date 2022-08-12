@@ -27,13 +27,13 @@ public class CategoryController extends BaseController<Category> {
     private ICategoryService categoryService;
 
 
+
     @GetMapping
     public ResponseEntity<?> getList(@RequestParam(name = "page",required = false) Integer page,
                                      @RequestParam(name = "perPage", required = false) Integer perPage,
                                      HttpServletRequest request){
         GenericSpecification<Category> specification = new GenericSpecification<Category>().getBasicQuery(request);
         PaginateDTO<Category> paginateCategories = categoryService.getList(page, perPage, specification);
-
         return this.resPagination(paginateCategories);
     }
 
@@ -46,6 +46,17 @@ public class CategoryController extends BaseController<Category> {
         return this.resSuccess(category);
     }
 
+    @PatchMapping("/{categoryId}")
+    @PreAuthorize("@userAuthorizer.isAdmin(authentication)")
+    public ResponseEntity<?> update(@RequestBody @Valid UpdateCategoryDTO categoryDTO,
+                                    @PathVariable(name = "categoryId") Integer categoryId) throws Exception {
+        Category category = categoryService.getCategoryById(categoryId);
+        categoryService.update(categoryDTO , category);
+        if(category == null)
+            throw new NotFoundException(Common.MSG_NOT_FOUND);
+        return this.resSuccess(category);
+    }
+
     @PostMapping
     @PreAuthorize("@userAuthorizer.isAdmin(authentication)")
     public ResponseEntity<?> create(@RequestBody @Valid CreateCategoryDTO categoryDTO) throws Exception {
@@ -53,17 +64,6 @@ public class CategoryController extends BaseController<Category> {
         return new ResponseEntity<>(Common.MSG_CREATED_SUCCESSFUL_201, HttpStatus.CREATED);
     }
 
-    @PatchMapping("/{categoryId}")
-    @PreAuthorize("@userAuthorizer.isAdmin(authentication)")
-    public ResponseEntity<?> update(@RequestBody @Valid UpdateCategoryDTO categoryDTO,
-                                    @PathVariable(name = "categoryId") Integer categoryId) throws Exception {
-        Category category = categoryService.getCategoryById(categoryId);
-
-        if(category == null)
-            throw new Exception(Common.MSG_NOT_FOUND);
-        Category updateCategory = categoryService.update(categoryDTO, category);
-        return this.resSuccess(updateCategory);
-    }
 
     @DeleteMapping("/{categoryId}")
     @PreAuthorize("@userAuthorizer.isAdmin(authentication)")
@@ -71,4 +71,21 @@ public class CategoryController extends BaseController<Category> {
         categoryService.deleteById(categoryId);
         return new ResponseEntity<>(Common.MSG_DELETE_SUCCESS, HttpStatus.OK);
     }
+
+    @PutMapping("/lockCategory/{categoryId}")
+//    @PreAuthorize("@userAuthorizer.isAdmin(authentication)")
+    public ResponseEntity<?> lockCategory(@PathVariable(name = "categoryId") Integer categoryId) throws Exception {
+        categoryService.lockCategory(categoryId);
+        return new ResponseEntity<>("lock this category success", HttpStatus.OK);
+    }
+
+    @PutMapping("/unLockCategory/{categoryId}")
+//    @PreAuthorize("@userAuthorizer.isAdmin(authentication)")
+    public ResponseEntity<?> unLockCategory(@PathVariable(name = "categoryId") Integer categoryId) throws Exception {
+        categoryService.unLockCategory(categoryId);
+        return new ResponseEntity<>("unlock this category success", HttpStatus.OK);
+    }
+
+
+
 }

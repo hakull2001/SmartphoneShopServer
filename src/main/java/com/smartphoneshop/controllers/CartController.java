@@ -20,10 +20,11 @@ public class CartController {
     private ICartService service;
 
 
+
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> getCartByUserId(@PathVariable("id") Integer id){
         Cart cart = service.getCartByUserId(id);
-        cart = service.updateCartAmount(cart.getCartItemList().toArray().length , cart);
+//        cart = service.updateCartAmount(cart.getCartItemList().toArray().length , cart);
         return new ResponseEntity<>(cart , HttpStatus.OK);
     }
 

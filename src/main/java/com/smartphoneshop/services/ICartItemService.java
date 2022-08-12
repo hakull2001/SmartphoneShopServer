@@ -14,9 +14,9 @@ public interface ICartItemService {
 
     void updateCartItemAmount(Integer id,Integer Amount);
 
-    void deleteById(Integer id);
+    void deleteById(Integer id , Integer userId);
 
-    void deleteByIdIn(List<Integer> ids);
+    void deleteByIdIn(List<Integer> ids , Integer userId);
 
 
 }

@@ -14,5 +14,7 @@ public interface IOrderItemRepository extends JpaRepository<OrderItem,Integer> {
     @Query("select u from OrderItem u where u.status = ?1")
     List<OrderItem> findOrderItemsByStatusIs(StatusOrderItem statusOrderItem);
 
+    @Query("select u from OrderItem u where u.status = 'Complete' and MONTH(u.createdDate) = ?1")
+    List<OrderItem> findOrderItemsByReceivedDateAndStatus(int month);
     OrderItem findOrderItemById(Integer id);
 }

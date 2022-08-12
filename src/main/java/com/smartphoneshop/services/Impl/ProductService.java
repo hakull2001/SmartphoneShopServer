@@ -40,6 +40,8 @@ public class ProductService extends BasePagination<Product, IProductRepository> 
 
     @Override
     public PaginateDTO<Product> getAllProducts(Integer page, Integer perPage, GenericSpecification<Product> specification) {
+
+
         return this.paginate(page, perPage, specification);
     }
 
@@ -71,6 +73,13 @@ public class ProductService extends BasePagination<Product, IProductRepository> 
             product.setProductImages(productImageService.createProductImages(form.getProductImages(), product));
 
     }
+
+    @Override
+    public void updateProductAmount(Product product, Integer amount) {
+        product.setAmount(amount);
+        repository.save(product);
+    }
+
 
     @Override
     public void unLockProductStatus(Integer id) {

@@ -30,26 +30,26 @@ public class Product implements Serializable {
     private String descriptions;
 
     @Column(name = "originalPrice",nullable = false)
-    private int originalPrice;
+    private Integer originalPrice;
 
     @Column(name = "promotionPrice",nullable = false)
-    private int promotionPrice;
+    private Integer promotionPrice;
 
     @Column(name = "`created_Date`")
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     private Date createdDate;
 
-    @Column
-    private Float avgRate;
+//    @Column
+//    private Float avgRate;
 
     @Column(name = "amount",nullable = false)
-    private short amount;
+    private Integer amount;
 
     @Column(name = "`status`" , columnDefinition = "1")
     private StatusCodeProductEnum status;
 
-    public Product(String title, String descriptions, int originalPrice, int promotionPrice, short amount) {
+    public Product(String title, String descriptions, int originalPrice, int promotionPrice, Integer amount) {
         this.title = title;
         this.descriptions = descriptions;
         this.originalPrice = originalPrice;
@@ -79,5 +79,13 @@ public class Product implements Serializable {
     @JsonIgnore
     @Cascade(value = {org.hibernate.annotations.CascadeType.REMOVE, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     private List<OrderItem> orderItems;
+
+    @PrePersist
+    public void PrePersist(){
+        if(this.status == null)
+            this.status = StatusCodeProductEnum.OPENING;
+        if(this.promotionPrice == null)
+            this.promotionPrice = originalPrice;
+    }
 
 }

@@ -1,8 +1,10 @@
 package com.smartphoneshop.services.Impl;
 
+import com.smartphoneshop.entity.Cart;
 import com.smartphoneshop.entity.CartItem;
 import com.smartphoneshop.repositories.ICartItemRepository;
 import com.smartphoneshop.services.ICartItemService;
+import com.smartphoneshop.services.ICartService;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,10 @@ public class CartItemService implements ICartItemService {
 
     @Autowired
     private ICartItemRepository repository;
+
+    @Autowired
+    private ICartService cartService;
+
 
     @Override
     @NotFound(action = NotFoundAction.EXCEPTION)
@@ -44,13 +50,17 @@ public class CartItemService implements ICartItemService {
 
     @Override
     @Transactional
-    public void deleteById(Integer id) {
+    public void deleteById(Integer id , Integer userId) {
+        Cart cart = cartService.getCartByUserId(userId);
         repository.deleteById(id);
+        cartService.updateCartAmount(cart.getAmount() - 1 , cart);
     }
 
     @Override
     @Transactional
-    public void deleteByIdIn(List<Integer> ids) {
+    public void deleteByIdIn(List<Integer> ids , Integer userId) {
+        Cart cart = cartService.getCartByUserId(userId);
         repository.deleteByIdIn(ids);
+        cartService.updateCartAmount(cart.getAmount() - ids.size() , cart);
     }
 }

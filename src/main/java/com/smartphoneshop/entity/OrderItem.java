@@ -1,5 +1,6 @@
 package com.smartphoneshop.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.smartphoneshop.constants.StatusCodeProductEnum;
@@ -27,10 +28,12 @@ public class OrderItem {
     @Column(name = "created_Date")
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp //default now
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date createdDate;
 
     @Column(name = "received_Date",columnDefinition = "null")
     @Temporal(TemporalType.DATE)
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date receivedDate;
 
 
