@@ -30,9 +30,15 @@ public class CartController {
 
 
     @PostMapping(value = "/addCartItem")
-    public ResponseEntity<?> addCartItemToCart(@RequestBody AddCartParams params){
-        service.addCartItemToCart(params);
-        return new ResponseEntity<>("add to cart successful", HttpStatus.OK);
+    public ResponseEntity<?> addCartItemToCart(@RequestBody AddCartParams params) throws Exception {
+        try{
+            service.addCartItemToCart(params);
+            return new ResponseEntity<>("add to cart successful", HttpStatus.OK);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(e.getMessage() , HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     @PostMapping(value = "/buyCartItem")

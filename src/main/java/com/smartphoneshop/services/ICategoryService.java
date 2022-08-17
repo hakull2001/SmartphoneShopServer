@@ -18,4 +18,6 @@ public interface ICategoryService {
     void lockCategory(Integer id);
 
     void unLockCategory(Integer id);
+
+    boolean existedByName(String name);
 }

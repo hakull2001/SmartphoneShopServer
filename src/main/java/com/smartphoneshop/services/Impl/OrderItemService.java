@@ -30,6 +30,11 @@ public class OrderItemService implements IOrderItemService {
     }
 
     @Override
+    public OrderItem getOrderItemById(Integer id) {
+        return repository.findOrderItemById(id);
+    }
+
+    @Override
     public Integer getMonthlyRevenue(int month) {
         List<OrderItem> orderItems = repository.findOrderItemsByReceivedDateAndStatus(month);
         Integer revenue = 0;
@@ -62,5 +67,10 @@ public class OrderItemService implements IOrderItemService {
             orderItem.setStatus(StatusOrderItem.Complete);
         }
         repository.save(orderItem);
+    }
+
+    @Override
+    public void deleteById(Integer id) {
+        repository.deleteById(id);
     }
 }

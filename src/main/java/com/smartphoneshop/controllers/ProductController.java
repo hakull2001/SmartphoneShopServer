@@ -68,14 +68,20 @@ public class ProductController extends BaseController<Product> {
         return this.resSuccess(product);
     }
 
+    @GetMapping(value = "/existsTitle/{title}")
+        public ResponseEntity<?> existedByProductTitle(@PathVariable("title") String title){
+            return new ResponseEntity<>(service.existsProductByTitle(title) , HttpStatus.OK);
+    }
+
+
     @PostMapping
-    @PreAuthorize("@userAuthorizer.isAdmin(authentication)")
+//    @PreAuthorize("@userAuthorizer.isAdmin(authentication)")
     public ResponseEntity<?> createProduct(@RequestBody CreateProductForm form){
         return new ResponseEntity<>(service.createProduct(form),HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/{id}")
-    @PreAuthorize("@userAuthorizer.isAdmin(authentication)")
+//    @PreAuthorize("@userAuthorizer.isAdmin(authentication)")
     public ResponseEntity<?> updateProduct(@PathVariable("id") Integer id , @RequestBody UpdateProductForm form){
         service.updateProduct(id,form);
         return new ResponseEntity<>("updated Successful",HttpStatus.OK);
@@ -83,18 +89,25 @@ public class ProductController extends BaseController<Product> {
 
 
     @PutMapping(value = "/unlock/{id}")
-    @PreAuthorize("@userAuthorizer.isAdmin(authentication)")
+//    @PreAuthorize("@userAuthorizer.isAdmin(authentication)")
     public ResponseEntity<?> unLockProduct(@PathVariable("id") Integer id){
         service.unLockProductStatus(id);
         return new ResponseEntity<>("Unlock Product Successfull",HttpStatus.OK);
     }
 
     @PutMapping(value = "/lock/{id}")
-    @PreAuthorize("@userAuthorizer.isAdmin(authentication)")
+//    @PreAuthorize("@userAuthorizer.isAdmin(authentication)")
     public ResponseEntity<?> lockProduct(@PathVariable("id") Integer id){
         service.lockProductStatus(id);
         return new ResponseEntity<>("Lock Product Successfull",HttpStatus.OK);
     }
+
+
+    @GetMapping(value = "/count")
+    public ResponseEntity<?> getProductCount(){
+        return new ResponseEntity<>(service.getProductCount() , HttpStatus.OK);
+    }
+
 
 
 

@@ -1,6 +1,7 @@
 package com.smartphoneshop.services.Impl;
 
 import com.smartphoneshop.base.BasePagination;
+import com.smartphoneshop.constants.StatusCodeEnum;
 import com.smartphoneshop.constants.StatusCodeProductEnum;
 import com.smartphoneshop.dto.pagination.PaginateDTO;
 import com.smartphoneshop.entity.Product;
@@ -64,13 +65,12 @@ public class ProductService extends BasePagination<Product, IProductRepository> 
 
     @Override
     public void updateProduct(Integer id , UpdateProductForm form) {
-
             Product product = form.toEntity();
             product.setId(id);
-            product.setCategory(categoryService.getCategoryById(form.getCategoryId()));
+            product.setCategory(categoryService.getCategoryById(repository.findProductById(id).getCategory().getId()));
             product.setCreatedDate(repository.findProductById(id).getCreatedDate());
             repository.save(product);
-            product.setProductImages(productImageService.createProductImages(form.getProductImages(), product));
+//            product.setProductImages(productImageService.createProductImages(form.getProductImages(), product));
 
     }
 
@@ -87,6 +87,16 @@ public class ProductService extends BasePagination<Product, IProductRepository> 
         if(product.getStatus() == StatusCodeProductEnum.CLOSED)
             product.setStatus(StatusCodeProductEnum.OPENING);
         repository.save(product);
+        if(product.getCategory().getStatus() == StatusCodeEnum.NOT_ACTIVE){
+            categoryService.unLockCategory(product.getCategory().getId());
+            for (Product pro: product.getCategory().getProducts()) {
+                if (pro.getId() != product.getId()) {
+                    pro.setStatus(StatusCodeProductEnum.CLOSED);
+                    repository.save(product);
+                }
+            }
+        }
+
     }
 
     @Override
@@ -102,6 +112,11 @@ public class ProductService extends BasePagination<Product, IProductRepository> 
     @Override
     public boolean existsProductByTitle(String title) {
         return repository.existsProductByTitle(title);
+    }
+
+    @Override
+    public long getProductCount() {
+        return repository.count();
     }
 
 

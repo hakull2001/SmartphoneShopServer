@@ -3,6 +3,7 @@ package com.smartphoneshop.repositories;
 import com.smartphoneshop.entity.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 
 public interface IProductRepository extends JpaRepository<Product , Integer> , JpaSpecificationExecutor<Product> {
 
@@ -12,3 +13,4 @@ public interface IProductRepository extends JpaRepository<Product , Integer> , J
 
     boolean existsProductByTitle(String title);
 }
+
