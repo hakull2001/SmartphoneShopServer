@@ -6,7 +6,7 @@ import com.smartphoneshop.filters.AddCartParams;
 public interface ICartService {
     Cart getCartByUserId(Integer id);
 
-    void addCartItemToCart(AddCartParams params);
+    void addCartItemToCart(AddCartParams params) throws Exception;
 
     void buyCartItem(Integer userId , Integer cartItemId);
 

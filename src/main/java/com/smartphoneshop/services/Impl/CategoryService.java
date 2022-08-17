@@ -87,4 +87,9 @@ public class CategoryService extends BasePagination<Category, ICategoryRepositor
         }
         repository.save(category);
     }
+
+    @Override
+    public boolean existedByName(String name) {
+        return repository.existsByName(name);
+    }
 }

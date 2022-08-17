@@ -36,9 +36,12 @@ public class CartService implements ICartService {
     }
 
     @Override
-    public void addCartItemToCart(AddCartParams params) {
+    public void addCartItemToCart(AddCartParams params) throws Exception {
         Cart cart = repository.findCartByUserId(params.getUserId());
         Product product = productService.getProductById(params.getProductId());
+        if(product.getAmount() == 0)
+            throw new Exception("Sản phẩm đã hết hàng");
+
         CartItem cartItem = null;
         for (CartItem item:cart.getCartItemList()) {
             if(item.getProduct().getId() == product.getId()){

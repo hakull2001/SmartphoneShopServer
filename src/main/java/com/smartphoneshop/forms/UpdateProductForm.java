@@ -32,10 +32,7 @@ public class UpdateProductForm {
     @Min(value = 0 , message = "Giá gốc phải hơn  0")
     private Integer amount;
 
-    @NotNull
-    private Integer categoryId;
-
-    private List<CreateProductImageForm> productImages;
+//    private List<CreateProductImageForm> productImages;
 
     public Product toEntity(){
         Product p = new Product(

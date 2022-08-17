@@ -47,7 +47,7 @@ public class CategoryController extends BaseController<Category> {
     }
 
     @PatchMapping("/{categoryId}")
-    @PreAuthorize("@userAuthorizer.isAdmin(authentication)")
+//    @PreAuthorize("@userAuthorizer.isAdmin(authentication)")
     public ResponseEntity<?> update(@RequestBody @Valid UpdateCategoryDTO categoryDTO,
                                     @PathVariable(name = "categoryId") Integer categoryId) throws Exception {
         Category category = categoryService.getCategoryById(categoryId);
@@ -58,7 +58,7 @@ public class CategoryController extends BaseController<Category> {
     }
 
     @PostMapping
-    @PreAuthorize("@userAuthorizer.isAdmin(authentication)")
+//    @PreAuthorize("@userAuthorizer.isAdmin(authentication)")
     public ResponseEntity<?> create(@RequestBody @Valid CreateCategoryDTO categoryDTO) throws Exception {
         categoryService.create(categoryDTO);
         return new ResponseEntity<>(Common.MSG_CREATED_SUCCESSFUL_201, HttpStatus.CREATED);
@@ -87,5 +87,9 @@ public class CategoryController extends BaseController<Category> {
     }
 
 
+    @GetMapping("/existed/{name}")
+    public ResponseEntity<?> isExistByName(@PathVariable("name") String name){
+        return new ResponseEntity<>(categoryService.existedByName(name), HttpStatus.CREATED);
+    }
 
 }

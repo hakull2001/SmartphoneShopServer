@@ -34,4 +34,6 @@ public interface IProductService{
     void lockProductStatus(Integer id);
 
     boolean existsProductByTitle(String title);
+
+    long getProductCount();
 }
