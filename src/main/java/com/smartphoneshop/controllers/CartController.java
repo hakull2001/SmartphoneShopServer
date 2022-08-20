@@ -50,7 +50,7 @@ public class CartController {
     @PostMapping(value = "/buyListCartItems/{userId}")
     public ResponseEntity<?> buyListCartItems(@PathVariable("userId") Integer userId){
         service.buyListCartItems(userId);
-        return new ResponseEntity<>(Common.MSG_BUY_ALL_CART_ITEMS_SUCCESS, HttpStatus.OK);
+        return new ResponseEntity<>("Buy List Success!", HttpStatus.OK);
     }
 
 }
