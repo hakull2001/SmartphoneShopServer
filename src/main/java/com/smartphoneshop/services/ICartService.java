@@ -12,7 +12,6 @@ public interface ICartService {
 
     void buyListCartItems(Integer userId);
 
-
     Cart updateCartAmount(Integer amount , Cart cart);
 
 
