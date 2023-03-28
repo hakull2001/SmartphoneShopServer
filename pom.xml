@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com</groupId>
-    <artifactId>smartPhoneShop</artifactId>
+    <artifactId>PCThanhCong_Server</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>smartPhoneShop</name>
-    <description>smartPhoneShop</description>
+    <name>PCThanhCong_Server</name>
+    <description>PCThanhCong_Server</description>
     <properties>
         <java.version>11</java.version>
     </properties>
@@ -114,6 +114,20 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-boot-starter</artifactId>
             <version>3.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.17</version>
+        </dependency>
+
+        <!-- Used to work with the newer excel file format - `.xlsx` -->
+        <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>3.17</version>
         </dependency>
     </dependencies>
 
